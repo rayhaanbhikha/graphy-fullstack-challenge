@@ -36,9 +36,7 @@ Because the challenge is open-ended, it's possible to spend a long time on this.
 1. Add functionality that allows users to add annotations anywhere on the screen.
 2. When an annotation is added, a marker is generated and shown on the screen.
 3. Markers should be interactive. When you hover over a marker, the annotation should show up as a tooltip. Please implement your own version of tooltips (e.g. don't use an external library or the "title" attribute).
-4. Add the ability to edit and delete annotations. Store annotations on the backend.
-5. ***Bonus*** When hovering over a marker, the annotation tooltip will be shown. Make sure this tooltip never overflows the screen. In other words, make sure these tooltips are always visible on the screen and they don't get cropped.
-6. ***Bonus*** Add support for multi-line annotations.
+4. Add the ability to edit and delete annotations. Store the annotations on the backend.
 
 ## Wireframe
 
