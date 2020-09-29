@@ -58,5 +58,5 @@ This is a wireframe of several of the requirements mentioned above.
 ## How to submit your code
 
 1. If you use GitHub, upload both the frontend and the backend to GitHub and make the two repos private.
-2. Add [@romans](https://github.com/romans) as a collaborator ([how do I do that?](https://help.github.com/en/articles/inviting-collaborators-to-a-personal-repository)).
+2. Add  [@mikeporterdev](https://github.com/mikeporterdev), [@iloire](https://github.com/iloire), [@igorsechyn](https://github.com/igorsechyn), [@scottwarren](https://github.com/scottwarren), [@tomasztunik](https://github.com/tomasztunik), and [@zofiag](https://github.com/zofiag) as collaborators ([how do I do that?](https://help.github.com/en/articles/inviting-collaborators-to-a-personal-repository)).
 3. Alternatively, zip the repos and [email them to us](mailto:roman@graphyapp.com).
