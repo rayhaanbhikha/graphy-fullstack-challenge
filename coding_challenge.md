@@ -10,7 +10,7 @@ Because the challenge is open-ended, it's possible to spend a long time on this.
 
 ## The challenge
 
-1. Write a React app that allows users to add annotations to arbitrary points on a canvas.
+1. Write a React app that allows users to add annotations to arbitrary points on the screen.
 2. Write an API that supports retrieving and saving annotations.
 3. Connect the API to the React app.
 
