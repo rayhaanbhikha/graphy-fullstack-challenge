@@ -13,25 +13,37 @@ export interface IAnnotation {
   open: boolean;
 }
 
+interface IAnnotationWrapper {
+  coord: Coord;
+}
 
-
+const AnnotationWrapper = styled.div<IAnnotationWrapper>`
+  position: absolute;
+  top: ${props => props.coord.y}px;
+  left: ${props => props.coord.x}px;
+  display: flex;
+`
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ coord, text, open }) => {
   const [isOpen, setisOpen] = useState(open);
 
-  const annotationToolTipCoords: Coord = {
-    x: coord.x + 19 + 10,
-    y: coord.y
-  };
-  return (
-    <div>
-      <Marker coord={coord} />
-      {/* { isOpen &&
-        <AnnotationTooltip
-          coord={annotationToolTipCoords}
-          text={text}
-        />} */}
+  const onMouseEnter = () => {
+    console.log("entering");
+    setisOpen(true);
+  }
 
-    </div>
+  const onMouseLeave = () => {
+    console.log("leaving");
+    setisOpen(false);
+  }
+
+  return (
+    <AnnotationWrapper coord={coord} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={(e: React.MouseEvent) => { e.stopPropagation() }}>
+      <Marker />
+      { isOpen &&
+        <AnnotationTooltip
+          text={text}
+        />}
+    </AnnotationWrapper>
   )
 }

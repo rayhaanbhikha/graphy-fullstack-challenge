@@ -17,6 +17,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   // TODO: custom hook.
   const [annotations, setAnnotations] = useState<IAnnotation[]>([])
 
+
   useEffect(() => {
     console.log("I was rendered");
   }, []);
