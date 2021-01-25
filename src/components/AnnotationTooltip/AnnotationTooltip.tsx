@@ -1,6 +1,9 @@
 import React, { FunctionComponent, useState } from 'react'
 import styled from 'styled-components'
 
+import { ReactComponent as Pencil } from './pencil.svg';
+import { ReactComponent as Delete } from './delete.svg';
+
 const AnnotationTooltipWrapper = styled.div`
   background: rgb(216, 216, 216);
   margin-left: 5px;
@@ -40,13 +43,17 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
         :
         <>
           <p style={{ flexGrow: 3 }}>{annotatedText}</p>
-          <div>
-            <button onClick={onEditHandler}>edit</button>
-            <button onClick={onDeleteHandler}>delete</button>
+          <div style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+            padding: '5px'
+          }}>
+            <Pencil style={{ cursor: 'pointer ' }} onClick={onEditHandler} />
+            <Delete style={{ cursor: 'pointer ' }} onClick={onDeleteHandler} />
           </div>
         </>
       }
 
-    </AnnotationTooltipWrapper>
+    </AnnotationTooltipWrapper >
   )
 }
