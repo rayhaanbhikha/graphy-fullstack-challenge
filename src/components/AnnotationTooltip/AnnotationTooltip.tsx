@@ -8,7 +8,9 @@ const AnnotationTooltipWrapper = styled.div`
   height: 100px;
   text-align: center;
   border-radius: 5px;
-  z-index: 999
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
 `
 
 interface IAnnotationTooltip {
@@ -18,6 +20,12 @@ interface IAnnotationTooltip {
 
 export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text }) => {
   return (
-    <AnnotationTooltipWrapper>{text}</AnnotationTooltipWrapper>
+    <AnnotationTooltipWrapper>
+      <p style={{ flexGrow: 3 }}>{text}</p>
+      <div>
+        <button>edit</button>
+        <button>delete</button>
+      </div>
+    </AnnotationTooltipWrapper>
   )
 }
