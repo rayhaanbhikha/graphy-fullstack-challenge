@@ -1,7 +1,9 @@
-import React, { useState, useEffect, FunctionComponent } from 'react'
+import React, { useEffect, FunctionComponent } from 'react'
 import styled from 'styled-components';
+import { v4 as uuid } from 'uuid'
 import { Coord } from '../../App';
-import { IAnnotation, Annotation } from '../Annotation/Annotation';
+import { Annotation } from '../Annotation/Annotation';
+import { useAnnotations } from './useAnnotations';
 
 interface IAnnotations {
   coord: Coord;
@@ -14,9 +16,7 @@ const Wrapper = styled.div`
 `
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
-  // TODO: custom hook.
-  const [annotations, setAnnotations] = useState<IAnnotation[]>([])
-
+  const [annotations, createAnnotation, updateAnnotation, deleteAnnotation] = useAnnotations([])
 
   useEffect(() => {
     console.log("I was rendered");
@@ -29,21 +29,31 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
 
     // center coordinate as x,y would represent top corner of box.
     // create an annotation component.
+    let { x, y } = coord;
+
+    x -= 9;
+    y -= 9;
+
     const annotation = {
-      id: 'random-id',
+      id: `${uuid()}:${x}:${y}`, // needed to ensure is annotation is unique alternatively could've used coords of each annotation.
       coord: {
-        x: coord.x - 9,
-        y: coord.y - 9
+        x,
+        y
       },
       text: 'some-blah-blah',
-      open: true,
     }
-    setAnnotations([...annotations, annotation])
+    createAnnotation(annotation)
   }
 
   return (
     <Wrapper onClick={onClick}>
-      {annotations.map((annotationData, index) => <Annotation key={index} {...annotationData} />)}
+      {annotations.map((annotationData, index) =>
+        <Annotation
+          key={index}
+          {...annotationData}
+          updateAnnotation={updateAnnotation}
+          deleteAnnotation={deleteAnnotation}
+        />)}
     </Wrapper>
   )
 }

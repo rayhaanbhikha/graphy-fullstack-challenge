@@ -5,21 +5,48 @@ import { Coord } from '../../App';
 
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { AnnotationWrapper } from './AnnotationWrapper';
+import { asyncFuncType } from '../Annotations/useAnnotations';
 
 // FIXME: shared typed.
+export interface IAnnotationType {
+  id: string;
+  coord: Coord;
+  text: string;
+}
+
 export interface IAnnotation {
   id: string;
   coord: Coord;
   text: string;
-  open: boolean;
+  updateAnnotation: asyncFuncType
+  deleteAnnotation: asyncFuncType
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ coord, text, open }) => {
-  const [isOpen, setisOpen] = useState(open);
+export const Annotation: FunctionComponent<IAnnotation> = ({ id, coord, text, updateAnnotation, deleteAnnotation }) => {
+  const [isOpen, setisOpen] = useState(true);
+  const [isEdit, setisEdit] = useState(false);
 
-  const onMouseEnter = () => setisOpen(true);
+  const onMouseEnter = () => !isEdit && setisOpen(true);
+  const onMouseLeave = () => !isEdit && setisOpen(false);
 
-  const onMouseLeave = () => setisOpen(false);
+  const onEditHandler = () => setisEdit(true)
+
+  const onSaveHandler = (newAnnotatedText: string) => {
+    setisEdit(false);
+    updateAnnotation({
+      id,
+      coord,
+      text: newAnnotatedText
+    })
+  }
+
+  const onDeleteHandler = () => {
+    deleteAnnotation({
+      id,
+      coord,
+      text
+    })
+  }
 
   return (
     <AnnotationWrapper
@@ -31,6 +58,10 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ coord, text, open }
       { isOpen &&
         <AnnotationTooltip
           text={text}
+          onSaveHandler={onSaveHandler}
+          onEditHandler={onEditHandler}
+          onDeleteHandler={onDeleteHandler}
+          isEditState={isEdit}
         />
       }
     </AnnotationWrapper>
