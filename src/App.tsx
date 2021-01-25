@@ -1,5 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import { Annotations } from './components/Annotations/Annotations'
 
 const Container = styled.div`
   width: 100vw;
@@ -9,9 +11,13 @@ const Container = styled.div`
 const Coords = styled.div`
   color: #aaa;
 `;
+export interface Coord {
+  x: number;
+  y: number;
+}
 
 const App = () => {
-  const [coords, setCoords] = useState({ x: 0, y: 0 });
+  const [coords, setCoords] = useState<Coord>({ x: 0, y: 0 });
 
   const handleMouseMove = (ev: React.MouseEvent) => {
     const { pageX: x, pageY: y } = ev;
@@ -20,8 +26,8 @@ const App = () => {
 
   return (
     <Container onMouseMove={handleMouseMove}>
-      <p>Hello world!</p>
-      <Coords>{coords.x}x{coords.y}</Coords>
+      <Coords>{coords.x},{coords.y}</Coords>
+      <Annotations coord={coords} />
     </Container>
   );
 };
