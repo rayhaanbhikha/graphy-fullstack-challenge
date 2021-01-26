@@ -43,18 +43,18 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler
   return (
     <AnnotationWrapper
       coord={coord}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-      <Marker />
+      <Marker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
       { isOpen &&
-        <AnnotationTooltip
-          text={text}
-          onSaveHandler={onSaveHandler}
-          onEditHandler={onEditHandler}
-          onDeleteHandler={onDeleteHandler}
-          isEditState={isEdit}
-        />
+        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          <AnnotationTooltip
+            text={text}
+            onSaveHandler={onSaveHandler}
+            onEditHandler={onEditHandler}
+            onDeleteHandler={onDeleteHandler}
+            isEditState={isEdit}
+          />
+        </div>
       }
     </AnnotationWrapper>
   )
