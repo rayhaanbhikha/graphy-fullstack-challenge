@@ -3,7 +3,7 @@ export interface Coord {
   y: number;
 }
 
-export interface IAnnotationType {
+export interface AnnotationType {
   id: string;
   coord: Coord;
   text: string;

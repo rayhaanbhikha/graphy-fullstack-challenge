@@ -1,15 +1,15 @@
 import { useState } from 'react'; 
-import { IAnnotationType } from '../../types';
+import { AnnotationType } from '../../types';
 
-export const useAnnotations = (initialState: IAnnotationType[]) => {
-  const [annotations, setAnnotations] = useState<IAnnotationType[]>(initialState)
+export const useAnnotations = (initialState: AnnotationType[]) => {
+  const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
 
   const init = async () => {
     // TODO: make api call.
-    return [] as IAnnotationType[];
+    return [] as AnnotationType[];
   }
 
-  const update = async (newAnnotation: IAnnotationType) => {
+  const update = async (newAnnotation: AnnotationType) => {
     console.log("updating annotation: ", newAnnotation);
     // TODO: make api call.
     const updatedAnnotations = annotations.map(annotation => annotation.id === newAnnotation.id ? newAnnotation : annotation);
@@ -17,12 +17,12 @@ export const useAnnotations = (initialState: IAnnotationType[]) => {
   }
 
   // TODO: omit id field. use from api endpoint.
-  const create = async (annotation: IAnnotationType) => {
+  const create = async (annotation: AnnotationType) => {
     // TODO: make api call.
     setAnnotations([...annotations, annotation]);
   }
 
-  const remove = async (annotationToDelete: IAnnotationType) => {
+  const remove = async (annotationToDelete: AnnotationType) => {
     // TODO: make api call.
     const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
     setAnnotations(updatedAnnotations);

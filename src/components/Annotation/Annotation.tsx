@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useState } from 'react'
 
 import { Marker } from '../Marker/Marker';
-import { IAnnotationType } from '../../types';
+import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { AnnotationWrapper } from './AnnotationWrapper';
 
 export interface IAnnotation {
-  data: IAnnotationType,
-  updateHandler: (annotation: IAnnotationType) => Promise<void>
-  removeHandler: (annotation: IAnnotationType) => Promise<void>
+  data: AnnotationType,
+  updateHandler: (annotation: AnnotationType) => Promise<void>
+  removeHandler: (annotation: AnnotationType) => Promise<void>
 }
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler }) => {
