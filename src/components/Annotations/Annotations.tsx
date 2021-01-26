@@ -21,6 +21,8 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   useEffect(() => {
     console.log("I was rendered");
     annotations.init();
+    // only want to render this on initial load.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onClick = () => {
