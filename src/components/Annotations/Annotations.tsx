@@ -2,8 +2,8 @@ import React, { useEffect, FunctionComponent } from 'react'
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid'
 import { Coord } from '../../App';
-import { Annotation } from '../Annotation/Annotation';
-import { useAnnotations } from './useAnnotations';
+import { Annotation, IAnnotationType } from '../Annotation/Annotation';
+import { useAnnotations, annotationsReducer, ActionTypes } from './useAnnotations';
 
 interface IAnnotations {
   coord: Coord;
@@ -16,10 +16,11 @@ const Wrapper = styled.div`
 `
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
-  const [annotations, createAnnotation, updateAnnotation, deleteAnnotation] = useAnnotations([])
+  const [annotations, dispatch] = useAnnotations(annotationsReducer, []);
 
   useEffect(() => {
     console.log("I was rendered");
+    dispatch({ type: ActionTypes.INIT, value: (([] as unknown) as IAnnotationType) })
   }, []);
 
   const onClick = () => {
@@ -42,7 +43,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       },
       text: 'some-blah-blah',
     }
-    createAnnotation(annotation)
+    dispatch({ type: ActionTypes.CREATE, value: annotation })
   }
 
   return (
@@ -50,9 +51,8 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       {annotations.map((annotationData, index) =>
         <Annotation
           key={index}
-          {...annotationData}
-          updateAnnotation={updateAnnotation}
-          deleteAnnotation={deleteAnnotation}
+          data={annotationData}
+          dispatch={dispatch}
         />)}
     </Wrapper>
   )

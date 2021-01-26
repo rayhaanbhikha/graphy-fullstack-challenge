@@ -5,7 +5,7 @@ import { Coord } from '../../App';
 
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { AnnotationWrapper } from './AnnotationWrapper';
-import { asyncFuncType } from '../Annotations/useAnnotations';
+import { ActionTypes, DispatchFuncType } from '../Annotations/useAnnotations';
 
 // FIXME: shared typed.
 export interface IAnnotationType {
@@ -15,14 +15,12 @@ export interface IAnnotationType {
 }
 
 export interface IAnnotation {
-  id: string;
-  coord: Coord;
-  text: string;
-  updateAnnotation: asyncFuncType
-  deleteAnnotation: asyncFuncType
+  data: IAnnotationType,
+  dispatch: DispatchFuncType
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ id, coord, text, updateAnnotation, deleteAnnotation }) => {
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, dispatch }) => {
+  const { id, coord, text } = data;
   const [isOpen, setisOpen] = useState(true);
   const [isEdit, setisEdit] = useState(false);
 
@@ -33,20 +31,20 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ id, coord, text, up
 
   const onSaveHandler = (newAnnotatedText: string) => {
     setisEdit(false);
-    updateAnnotation({
-      id,
-      coord,
-      text: newAnnotatedText
-    })
+    dispatch({
+      type: ActionTypes.UPDATE,
+      value: {
+        id,
+        coord,
+        text: newAnnotatedText
+      }
+    });
   }
 
-  const onDeleteHandler = () => {
-    deleteAnnotation({
-      id,
-      coord,
-      text
-    })
-  }
+  const onDeleteHandler = () => dispatch({
+    type: ActionTypes.DELETE,
+    value: data,
+  })
 
   return (
     <AnnotationWrapper
