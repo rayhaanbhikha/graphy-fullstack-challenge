@@ -2,8 +2,8 @@ import React, { useEffect, FunctionComponent } from 'react'
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid'
 import { Coord } from '../../App';
-import { Annotation, IAnnotationType } from '../Annotation/Annotation';
-import { useAnnotations, annotationsReducer, ActionTypes } from './useAnnotations';
+import { Annotation } from '../Annotation/Annotation';
+import { useAnnotations } from './useAnnotations';
 
 interface IAnnotations {
   coord: Coord;
@@ -16,11 +16,11 @@ const Wrapper = styled.div`
 `
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
-  const [annotations, dispatch] = useAnnotations(annotationsReducer, []);
+  const annotations = useAnnotations([]);
 
   useEffect(() => {
     console.log("I was rendered");
-    dispatch({ type: ActionTypes.INIT, value: (([] as unknown) as IAnnotationType) })
+    annotations.init();
   }, []);
 
   const onClick = () => {
@@ -35,6 +35,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
     x -= 9;
     y -= 9;
 
+    // should call api endpoint.
     const annotation = {
       id: `${uuid()}:${x}:${y}`, // needed to ensure is annotation is unique alternatively could've used coords of each annotation.
       coord: {
@@ -43,16 +44,17 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       },
       text: 'some-blah-blah',
     }
-    dispatch({ type: ActionTypes.CREATE, value: annotation })
+    annotations.create(annotation);
   }
 
   return (
     <Wrapper onClick={onClick}>
-      {annotations.map((annotationData, index) =>
+      {annotations.value.map((annotationData, index) =>
         <Annotation
           key={index}
           data={annotationData}
-          dispatch={dispatch}
+          updateHandler={annotations.update}
+          removeHandler={annotations.remove}
         />)}
     </Wrapper>
   )

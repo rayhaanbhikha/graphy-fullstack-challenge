@@ -5,7 +5,6 @@ import { Coord } from '../../App';
 
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { AnnotationWrapper } from './AnnotationWrapper';
-import { ActionTypes, DispatchFuncType } from '../Annotations/useAnnotations';
 
 // FIXME: shared typed.
 export interface IAnnotationType {
@@ -16,10 +15,11 @@ export interface IAnnotationType {
 
 export interface IAnnotation {
   data: IAnnotationType,
-  dispatch: DispatchFuncType
+  updateHandler: (annotation: IAnnotationType) => Promise<void>
+  removeHandler: (annotation: IAnnotationType) => Promise<void>
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, dispatch }) => {
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler }) => {
   const { id, coord, text } = data;
   const [isOpen, setisOpen] = useState(true);
   const [isEdit, setisEdit] = useState(false);
@@ -31,20 +31,14 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, dispatch }) =
 
   const onSaveHandler = (newAnnotatedText: string) => {
     setisEdit(false);
-    dispatch({
-      type: ActionTypes.UPDATE,
-      value: {
-        id,
-        coord,
-        text: newAnnotatedText
-      }
-    });
+    updateHandler({
+      id,
+      coord,
+      text: newAnnotatedText
+    })
   }
 
-  const onDeleteHandler = () => dispatch({
-    type: ActionTypes.DELETE,
-    value: data,
-  })
+  const onDeleteHandler = () => removeHandler(data);
 
   return (
     <AnnotationWrapper
