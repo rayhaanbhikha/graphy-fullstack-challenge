@@ -21,17 +21,16 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
 
   const onChangeHandler = (e: any) => setIsAnnotatedText(e.target.value)
 
-  const renderBtns = () =>
-    inEditMode ?
-      <Save onClickHandler={() => onSaveHandler(annotatedText)} /> :
-      <Pencil onClickHandler={onEditHandler} />
-
   // TODO: cleanup component and add transition.
   return (
     <AnnotationTooltipWrapper >
       <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
       <BtnWrapper>
-        {renderBtns()}
+        {
+          inEditMode ?
+            <Save onClickHandler={() => onSaveHandler(annotatedText)} /> :
+            <Pencil onClickHandler={onEditHandler} />
+        }
         <Bin onClickHandler={onDeleteHandler} />
       </BtnWrapper>
     </AnnotationTooltipWrapper >
