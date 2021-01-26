@@ -15,6 +15,7 @@ export const AnnotatedText: FunctionComponent<IAnnotatedText> = ({ inEditMode, o
 
   return (
     <textarea ref={textAreaRef as any} onChange={onChangeHandler} value={text} readOnly={!inEditMode}
+      // FIXME: remove this
       style={{
         flexGrow: 3,
         minWidth: 'inherit',

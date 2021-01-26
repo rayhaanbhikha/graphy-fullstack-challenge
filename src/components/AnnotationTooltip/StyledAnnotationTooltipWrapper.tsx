@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export interface IAnnotationTooltipWrapper {
+export interface IStyledAnnotationTooltipWrapper {
   isOpen: boolean;
 }
 
-export const AnnotationTooltipWrapper = styled.div<IAnnotationTooltipWrapper>`
+export const StyledAnnotationTooltipWrapper = styled.div<IStyledAnnotationTooltipWrapper>`
   background: rgb(216, 216, 216);
   margin-left: 5px;
   min-width: 300px;

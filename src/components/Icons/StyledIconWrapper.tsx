@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const IconWrapper = styled.i`
+export const StyledIconWrapper = styled.i`
   cursor: pointer;
   margin: 2px;
 `

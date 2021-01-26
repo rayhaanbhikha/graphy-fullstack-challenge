@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const BtnWrapper = styled.div`
+export const StyledBtnWrapper = styled.div`
   display: flex;
   justify-content: flex-end;
   padding: 5px;

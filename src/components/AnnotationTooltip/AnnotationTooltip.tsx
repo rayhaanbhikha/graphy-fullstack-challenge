@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useState } from 'react'
 
-import { AnnotationTooltipWrapper } from './AnnotationTooltipWrapper';
-import { BtnWrapper } from './BtnWrapper';
-import { Pencil } from './Pencil';
-import { Bin } from './Bin';
+import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
+import { StyledBtnWrapper } from './StyledBtnWrapper';
+import { Pencil } from '../Icons/Pencil';
+import { Bin } from '../Icons/Bin';
 import { AnnotatedText } from './AnnotatedText';
-import { Save } from './Save';
+import { Save } from '../Icons/Save';
 
 interface IAnnotationTooltip {
   text: string;
@@ -24,16 +24,16 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
 
   // TODO: cleanup component and add transition.
   return (
-    <AnnotationTooltipWrapper isOpen={isOpen}>
+    <StyledAnnotationTooltipWrapper isOpen={isOpen}>
       <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
-      <BtnWrapper>
+      <StyledBtnWrapper>
         {
           inEditMode ?
             <Save onClickHandler={() => onSaveHandler(annotatedText)} /> :
             <Pencil onClickHandler={onEditHandler} />
         }
         <Bin onClickHandler={onDeleteHandler} />
-      </BtnWrapper>
-    </AnnotationTooltipWrapper >
+      </StyledBtnWrapper>
+    </StyledAnnotationTooltipWrapper >
   )
 }
