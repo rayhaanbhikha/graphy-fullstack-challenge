@@ -1,25 +1,25 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react'
 
 interface IAnnotatedText {
-  isEditState: boolean;
+  inEditMode: boolean;
   text: string;
   onChangeHandler: (event: React.ChangeEvent) => void
 }
 
-export const AnnotatedText: FunctionComponent<IAnnotatedText> = ({ isEditState, onChangeHandler, text }) => {
+export const AnnotatedText: FunctionComponent<IAnnotatedText> = ({ inEditMode, onChangeHandler, text }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>();
 
   useEffect(() => {
-    if (isEditState) textAreaRef?.current?.focus();
-  }, [isEditState])
+    if (inEditMode) textAreaRef?.current?.focus();
+  }, [inEditMode])
 
   return (
-    <textarea ref={textAreaRef as any} onChange={onChangeHandler} value={text} readOnly={!isEditState}
+    <textarea ref={textAreaRef as any} onChange={onChangeHandler} value={text} readOnly={!inEditMode}
       style={{
         flexGrow: 3,
         minWidth: 'inherit',
         border: 'none',
-        background: isEditState ? 'white' : 'inherit',
+        background: inEditMode ? 'white' : 'inherit',
         margin: '5px',
         padding: '2px',
       }

@@ -1,4 +1,4 @@
-import React, { useEffect, FunctionComponent } from 'react'
+import React, { useEffect, FunctionComponent, useState } from 'react'
 import { v4 as uuid } from 'uuid'
 
 import { Coord, AnnotationType } from '../../types';
@@ -26,6 +26,7 @@ interface IAnnotations {
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   const annotations = useAnnotations([]);
+  const [disableAnnotationCreation, setdisable] = useState(false);
 
   useEffect(() => {
     console.log("I was rendered");
@@ -33,7 +34,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClick = () => annotations.create(createAnnotation(coord));
+  const onClick = () => !disableAnnotationCreation && annotations.create(createAnnotation(coord));
 
   return (
     <AnnotationsWrapper onClick={onClick}>
@@ -43,6 +44,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
           data={annotationData}
           updateHandler={annotations.update}
           removeHandler={annotations.remove}
+          disable={setdisable}
         />)}
     </AnnotationsWrapper>
   )

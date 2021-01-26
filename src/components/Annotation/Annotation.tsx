@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useState } from 'react'
 
 import { Marker } from '../Marker/Marker';
 import { AnnotationType } from '../../types';
@@ -9,28 +9,40 @@ export interface IAnnotation {
   data: AnnotationType,
   updateHandler: (annotation: AnnotationType) => Promise<void>
   removeHandler: (annotation: AnnotationType) => Promise<void>
+  disable: (b: boolean) => void;
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler }) => {
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler, disable }) => {
   const { id, coord, text } = data;
   const [isOpen, setisOpen] = useState(true);
-  const [isEdit, setisEdit] = useState(true);
+  const [inEditMode, setisEditMode] = useState(true);
 
-  const onMouseEnter = () => !isEdit && setisOpen(true);
-  const onMouseLeave = () => !isEdit && setisOpen(false);
+  useEffect(() => {
+    disable(true);
+  }, [])
 
-  const onEditHandler = () => setisEdit(true)
+  const onMouseEnter = () => !inEditMode && setisOpen(true);
+  const onMouseLeave = () => !inEditMode && setisOpen(false);
+
+  const onEditHandler = () => {
+    setisEditMode(true)
+    disable(true);
+  }
 
   const onSaveHandler = (newAnnotatedText: string) => {
-    setisEdit(false);
+    setisEditMode(false);
     updateHandler({
       id,
       coord,
       text: newAnnotatedText
     })
+    disable(false);
   }
 
-  const onDeleteHandler = () => removeHandler(data);
+  const onDeleteHandler = () => {
+    removeHandler(data);
+    disable(false);
+  }
 
   return (
     <AnnotationWrapper
@@ -43,7 +55,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler
           onSaveHandler={onSaveHandler}
           onEditHandler={onEditHandler}
           onDeleteHandler={onDeleteHandler}
-          isEditState={isEdit}
+          inEditMode={inEditMode}
         />
       </div>
     </AnnotationWrapper>
