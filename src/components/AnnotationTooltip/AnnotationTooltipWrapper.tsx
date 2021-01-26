@@ -3,11 +3,10 @@ import styled from "styled-components";
 export const AnnotationTooltipWrapper = styled.div`
   background: rgb(216, 216, 216);
   margin-left: 5px;
-  width: 300px;
-  height: 100px;
-  text-align: center;
+  min-width: 300px;
+  min-height: 100px;
   border-radius: 5px;
-  z-index: 999;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `

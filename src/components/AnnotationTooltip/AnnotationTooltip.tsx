@@ -4,6 +4,7 @@ import { AnnotationTooltipWrapper } from './AnnotationTooltipWrapper';
 import { BtnWrapper } from './BtnWrapper';
 import { Pencil } from './Pencil';
 import { Bin } from './Bin';
+import { AnnotatedText } from './AnnotatedText';
 
 interface IAnnotationTooltip {
   text: string;
@@ -19,13 +20,9 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
 
   const onChangeHandler = (e: any) => setIsAnnotatedText(e.target.value)
 
-  const renderAnnotatedText = () => isEditState ?
-    <input type="textarea" style={{ flexGrow: 3 }} value={annotatedText} onChange={onChangeHandler}></input> :
-    <p style={{ flexGrow: 3 }}>{annotatedText}</p>
-
   const renderBtns = () =>
     isEditState ?
-      <button onClick={() => onSaveHandler(annotatedText)}>save</button> :
+      <button style={{ margin: '2px' }} onClick={() => onSaveHandler(annotatedText)}>save</button> :
       <>
         <Pencil onClickHandler={onEditHandler} />
         <Bin onClickHandler={onDeleteHandler} />
@@ -33,8 +30,8 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
 
   // TODO: cleanup component and add transition.
   return (
-    <AnnotationTooltipWrapper>
-      {renderAnnotatedText()}
+    <AnnotationTooltipWrapper >
+      <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} isEditState={isEditState} />
       <BtnWrapper>
         {renderBtns()}
       </BtnWrapper>
