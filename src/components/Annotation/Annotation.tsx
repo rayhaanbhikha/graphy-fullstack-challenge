@@ -3,7 +3,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { Marker } from '../Marker/Marker';
 import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
-import { AnnotationWrapper } from './AnnotationWrapper';
+import { StyledAnnotationWrapper } from './StyledAnnotationWrapper';
 
 export interface IAnnotation {
   data: AnnotationType,
@@ -45,7 +45,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler
   }
 
   return (
-    <AnnotationWrapper
+    <StyledAnnotationWrapper
       coord={coord}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
       isOpen={isOpen}
@@ -61,6 +61,6 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler
           isOpen={isOpen}
         />
       </div>
-    </AnnotationWrapper >
+    </StyledAnnotationWrapper >
   )
 }
