@@ -9,39 +9,40 @@ export interface IAnnotation {
   data: AnnotationType,
   updateHandler: (annotation: AnnotationType) => Promise<void>
   removeHandler: (annotation: AnnotationType) => Promise<void>
-  disable: (b: boolean) => void;
+  setdisableAnnotationCreation: (b: boolean) => void;
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler, disable }) => {
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler, setdisableAnnotationCreation }) => {
   const { id, coord, text } = data;
+
   const [isOpen, setisOpen] = useState(true);
   const [inEditMode, setisEditMode] = useState(true);
 
   useEffect(() => {
-    disable(true);
-  }, [])
+    setdisableAnnotationCreation(true);
+  }, [setdisableAnnotationCreation])
 
   const onMouseEnter = () => !inEditMode && setisOpen(true);
   const onMouseLeave = () => !inEditMode && setisOpen(false);
 
   const onEditHandler = () => {
     setisEditMode(true)
-    disable(true);
+    setdisableAnnotationCreation(true);
   }
 
   const onSaveHandler = (newAnnotatedText: string) => {
     setisEditMode(false);
+    setdisableAnnotationCreation(false);
     updateHandler({
       id,
       coord,
       text: newAnnotatedText
     })
-    disable(false);
   }
 
   const onDeleteHandler = () => {
     removeHandler(data);
-    disable(false);
+    setdisableAnnotationCreation(false);
   }
 
   return (
