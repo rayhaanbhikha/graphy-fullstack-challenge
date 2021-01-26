@@ -22,7 +22,7 @@ export interface IAnnotation {
 export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler }) => {
   const { id, coord, text } = data;
   const [isOpen, setisOpen] = useState(true);
-  const [isEdit, setisEdit] = useState(false);
+  const [isEdit, setisEdit] = useState(true);
 
   const onMouseEnter = () => !isEdit && setisOpen(true);
   const onMouseLeave = () => !isEdit && setisOpen(false);
