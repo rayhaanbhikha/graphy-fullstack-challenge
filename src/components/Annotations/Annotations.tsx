@@ -26,7 +26,6 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   }, []);
 
   const onClick = () => {
-    console.log(coord);
     // TODO: check if any annotations around?
     // radius of 9.
 
@@ -44,7 +43,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
         x,
         y
       },
-      text: 'some-blah-blah',
+      text: '',
     }
     annotations.create(annotation);
   }
