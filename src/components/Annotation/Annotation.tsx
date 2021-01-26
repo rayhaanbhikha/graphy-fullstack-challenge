@@ -1,17 +1,9 @@
 import React, { FunctionComponent, useState } from 'react'
+
 import { Marker } from '../Marker/Marker';
-
-import { Coord } from '../../App';
-
+import { IAnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { AnnotationWrapper } from './AnnotationWrapper';
-
-// FIXME: shared typed.
-export interface IAnnotationType {
-  id: string;
-  coord: Coord;
-  text: string;
-}
 
 export interface IAnnotation {
   data: IAnnotationType,

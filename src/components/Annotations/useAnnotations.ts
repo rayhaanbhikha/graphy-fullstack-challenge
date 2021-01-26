@@ -1,5 +1,5 @@
 import { useState } from 'react'; 
-import { IAnnotationType } from '../Annotation/Annotation';
+import { IAnnotationType } from '../../types';
 
 export const useAnnotations = (initialState: IAnnotationType[]) => {
   const [annotations, setAnnotations] = useState<IAnnotationType[]>(initialState)

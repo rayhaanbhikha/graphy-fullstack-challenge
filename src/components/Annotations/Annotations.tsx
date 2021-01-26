@@ -1,7 +1,8 @@
 import React, { useEffect, FunctionComponent } from 'react'
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid'
-import { Coord } from '../../App';
+
+import { Coord } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
 import { useAnnotations } from './useAnnotations';
 

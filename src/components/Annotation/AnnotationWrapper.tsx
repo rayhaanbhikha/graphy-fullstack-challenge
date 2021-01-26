@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { Coord } from '../../App';
+import { Coord } from '../../types';
 
 interface IAnnotationWrapper {
   coord: Coord;
