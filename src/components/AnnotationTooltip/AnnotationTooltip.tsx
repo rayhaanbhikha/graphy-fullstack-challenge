@@ -13,9 +13,10 @@ interface IAnnotationTooltip {
   onDeleteHandler: (event: React.MouseEvent) => void;
   onSaveHandler: (text: string) => void;
   inEditMode: boolean;
+  isOpen: boolean;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text, onEditHandler, inEditMode, onSaveHandler, onDeleteHandler }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text, onEditHandler, inEditMode, onSaveHandler, onDeleteHandler, isOpen }) => {
 
   const [annotatedText, setIsAnnotatedText] = useState(text);
 
@@ -23,7 +24,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
 
   // TODO: cleanup component and add transition.
   return (
-    <AnnotationTooltipWrapper >
+    <AnnotationTooltipWrapper isOpen={isOpen}>
       <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
       <BtnWrapper>
         {
