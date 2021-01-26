@@ -6,4 +6,5 @@ export const Marker = styled.div`
   height: 19px;
   border-radius: 3px;
   border: solid 1px rgb(173, 173, 173);
+  cursor: pointer;
 `
