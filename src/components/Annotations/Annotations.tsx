@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid'
 import { Coord, AnnotationType } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
 import { markerDimensions } from '../Marker/Marker';
-import { AnnotationsWrapper } from './AnnotationsWrapper';
+import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from './useAnnotations';
 
 export const createAnnotation = (coord: Coord): AnnotationType => ({
@@ -33,7 +33,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   const onClick = () => !disableAnnotationCreation && annotations.create(createAnnotation(coord));
 
   return (
-    <AnnotationsWrapper onClick={onClick}>
+    <StyledAnnotationsWrapper onClick={onClick}>
       {annotations.value.map((annotationData, index) =>
         <Annotation
           key={index}
@@ -42,6 +42,6 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
           removeHandler={annotations.remove}
           setdisableAnnotationCreation={setdisableAnnotationCreation}
         />)}
-    </AnnotationsWrapper>
+    </StyledAnnotationsWrapper>
   )
 }

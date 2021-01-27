@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const AnnotationsWrapper = styled.div`
+export const StyledAnnotationsWrapper = styled.div`
   position: inherit;
   height: inherit;
   width: inherit;
