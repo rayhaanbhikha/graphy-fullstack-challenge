@@ -23,6 +23,7 @@ interface IAnnotations {
 }
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
+  // TODO: error handling.
   const annotations = useAnnotations([]);
   const [annotationStateContext, setAnnotationStateContext] = useState(AnnotationStates.DEFAULT_MODE);
 
@@ -38,6 +39,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       state: annotationStateContext,
       toggleState: setAnnotationStateContext
     }}>
+      {/* TODO: Box should appear with warning or errors. */}
       <StyledAnnotationsWrapper onClick={onClick}>
         {annotations.value.map((annotationData, index) =>
           <Annotation
