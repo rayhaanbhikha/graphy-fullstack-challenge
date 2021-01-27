@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
 
 import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
 import { StyledBtnWrapper } from './StyledBtnWrapper';
@@ -7,6 +7,7 @@ import { Bin } from '../Icons/Bin';
 import { AnnotatedText } from './AnnotatedText';
 import { Save } from '../Icons/Save';
 import { AnnotationType } from '../../types';
+import { AnnotationStateContext, AnnotationStates } from '../hooks/AnnotationStateContext';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
@@ -23,15 +24,32 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   const [inEditMode, setinEditMode] = useState(true);
   const [annotatedText, setIsAnnotatedText] = useState(text);
 
+  const { toggleState } = useContext(AnnotationStateContext);
+
+  useEffect(() => {
+    toggleState(AnnotationStates.EDIT_MODE);
+  }, [])
+
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
   const onSaveHandler = () => {
     setinEditMode(false);
+    toggleState(AnnotationStates.DEFAULT_MODE);
     updateAnnotation({
       id,
       coord,
       text: annotatedText
     })
+  }
+
+  const onEditHandler = () => {
+    setinEditMode(true);
+    toggleState(AnnotationStates.EDIT_MODE)
+  }
+
+  const onDeleteHandler = () => {
+    toggleState(AnnotationStates.DEFAULT_MODE);
+    removeAnnotation(data)
   }
 
   const onMouseEnter = () => setisHoveringOverToolTip(true)
@@ -47,9 +65,9 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
           {
             inEditMode ?
               <Save onClickHandler={onSaveHandler} /> :
-              <Pencil onClickHandler={() => setinEditMode(true)} />
+              <Pencil onClickHandler={onEditHandler} />
           }
-          <Bin onClickHandler={() => removeAnnotation(data)} />
+          <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>
       </StyledAnnotationTooltipWrapper >
     </div>

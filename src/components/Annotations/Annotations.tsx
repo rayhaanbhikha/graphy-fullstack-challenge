@@ -3,6 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 import { Coord, AnnotationType } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
+import { AnnotationStateContextProvider, AnnotationStates } from '../hooks/AnnotationStateContext';
 import { markerDimensions } from '../Marker/StyledMarker';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from './useAnnotations';
@@ -23,24 +24,29 @@ interface IAnnotations {
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   const annotations = useAnnotations([]);
-  const [disableAnnotationCreation, setdisableAnnotationCreation] = useState(false);
+  const [annotationStateContext, setAnnotationStateContext] = useState(AnnotationStates.DEFAULT_MODE);
 
   useEffect(() => {
     annotations.init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClick = () => !disableAnnotationCreation && annotations.create(createAnnotation(coord));
+  const onClick = () => annotationStateContext === AnnotationStates.DEFAULT_MODE && annotations.create(createAnnotation(coord));
 
   return (
-    <StyledAnnotationsWrapper onClick={onClick}>
-      {annotations.value.map((annotationData, index) =>
-        <Annotation
-          key={index}
-          data={annotationData}
-          updateAnnotation={annotations.update}
-          removeAnnotation={annotations.remove}
-        />)}
-    </StyledAnnotationsWrapper>
+    <AnnotationStateContextProvider value={{
+      state: annotationStateContext,
+      toggleState: setAnnotationStateContext
+    }}>
+      <StyledAnnotationsWrapper onClick={onClick}>
+        {annotations.value.map((annotationData, index) =>
+          <Annotation
+            key={index}
+            data={annotationData}
+            updateAnnotation={annotations.update}
+            removeAnnotation={annotations.remove}
+          />)}
+      </StyledAnnotationsWrapper>
+    </AnnotationStateContextProvider >
   )
 }
