@@ -1,5 +1,7 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react'
 
+import { StyledTextArea } from './StyledTextArea';
+
 interface IAnnotatedText {
   inEditMode: boolean;
   text: string;
@@ -13,18 +15,5 @@ export const AnnotatedText: FunctionComponent<IAnnotatedText> = ({ inEditMode, o
     if (inEditMode) textAreaRef?.current?.focus();
   }, [inEditMode])
 
-  return (
-    <textarea ref={textAreaRef} onChange={onChangeHandler} value={text} readOnly={!inEditMode}
-      // FIXME: remove this
-      style={{
-        flexGrow: 3,
-        minWidth: 'inherit',
-        border: 'none',
-        background: inEditMode ? 'white' : 'inherit',
-        margin: '5px',
-        padding: '2px',
-      }
-      }
-    />
-  )
+  return <StyledTextArea ref={textAreaRef} onChange={onChangeHandler} value={text} readOnly={!inEditMode} />
 }
