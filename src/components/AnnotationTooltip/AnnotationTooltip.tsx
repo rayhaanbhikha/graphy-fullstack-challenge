@@ -34,21 +34,24 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
     })
   }
 
-  // TODO: cleanup component and add transition.
+  const onMouseEnter = () => setisHoveingOverToolTip(true)
+  const onMouseLeave = () => setisHoveingOverToolTip(false)
+
+  // TODO: css transition.
   return (
-    <StyledAnnotationTooltipWrapper
-      onMouseEnter={() => setisHoveingOverToolTip(true)}
-      onMouseLeave={() => setisHoveingOverToolTip(false)}
-      isOpen={ishoveringOverMarker || inEditMode || isHoveingOverToolTip} >
-      <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
-      <StyledBtnWrapper>
-        {
-          inEditMode ?
-            <Save onClickHandler={onSaveHandler} /> :
-            <Pencil onClickHandler={() => setinEditMode(true)} />
-        }
-        <Bin onClickHandler={() => removeAnnotation(data)} />
-      </StyledBtnWrapper>
-    </StyledAnnotationTooltipWrapper >
+    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <StyledAnnotationTooltipWrapper
+        isOpen={ishoveringOverMarker || inEditMode || isHoveingOverToolTip} >
+        <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
+        <StyledBtnWrapper>
+          {
+            inEditMode ?
+              <Save onClickHandler={onSaveHandler} /> :
+              <Pencil onClickHandler={() => setinEditMode(true)} />
+          }
+          <Bin onClickHandler={() => removeAnnotation(data)} />
+        </StyledBtnWrapper>
+      </StyledAnnotationTooltipWrapper >
+    </div>
   )
 }
