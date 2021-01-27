@@ -6,6 +6,7 @@ import { AnnotationStateContextProvider, AnnotationStates } from '../hooks/Annot
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from '../hooks/useAnnotations';
 import { annotationService } from '../../Annotations.service';
+import { StyledErrorBar } from './StyledErrorBar';
 
 interface IAnnotations {
   coord: Coord;
@@ -28,9 +29,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       value: annotationStateContext,
       setAnnotationStateContext
     }}>
-      {/* TODO: Box should appear with warning or errors. */}
-      <button onClick={() => annotations.init()}>get annota</button>
-      <div>{coord.x}:{coord.y}</div>
+      { annotations.errorMessage !== '' && <StyledErrorBar>{annotations.errorMessage}</StyledErrorBar>}
       <StyledAnnotationsWrapper onClick={onClick}>
         {
           annotations.value.map((annotationData) => {

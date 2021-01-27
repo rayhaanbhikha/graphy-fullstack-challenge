@@ -4,25 +4,42 @@ import { AnnotationService } from '../../Annotations.service';
 import { AnnotationType, Coord } from '../../types';
 
 export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
+  const [errorMessage, setErrorMessage] = useState("");
   const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
 
   const init = async () => {
-    const res = await annotationService.getAll();
-    setAnnotations(res);
+    try {
+      const res = await annotationService.getAll();
+      setAnnotations(res);
+      setErrorMessage('');
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Error retrieving your annotation")
+    }
   }
 
   const save = async (newAnnotation: AnnotationType) => {
-    const savedAnnotation = await annotationService.save(newAnnotation)
-    const updatedAnnotations = annotations.map(annotation => annotation.id === savedAnnotation.id ? savedAnnotation : annotation);
-    setAnnotations(updatedAnnotations);
+    try {
+      const savedAnnotation = await annotationService.save(newAnnotation)
+      const updatedAnnotations = annotations.map(annotation => annotation.id === savedAnnotation.id ? savedAnnotation : annotation);
+      setAnnotations(updatedAnnotations);
+      setErrorMessage('');
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Error saving your annotation")
+    }
   }
 
   const remove = async (annotationToDelete: AnnotationType) => {
-    await annotationService.remove(annotationToDelete)
-    console.log("before: ", annotations)
-    const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
-    console.log("after: ", updatedAnnotations)
-    setAnnotations(updatedAnnotations);
+    try {
+      await annotationService.remove(annotationToDelete)
+      const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
+      setAnnotations(updatedAnnotations);
+      setErrorMessage('');
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Error deleting your annotation")
+    }
   }
 
   const generate = (coord: Coord) => {
@@ -30,5 +47,5 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     setAnnotations([...annotations, annotation]);
   };
 
-  return { value: annotations, generate, init, save, remove };
+  return { value: annotations, errorMessage, generate, init, save, remove };
 }

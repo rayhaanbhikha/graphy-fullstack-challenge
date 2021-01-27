@@ -19,8 +19,6 @@ export class AnnotationService {
   async getAll() {
     const res = await fetch(`${this.baseURL}/`)
     const data = await res.json();
-    // TODO: validation
-    // TODO: Error handling
     return data as AnnotationType[];
   }
   
@@ -33,13 +31,10 @@ export class AnnotationService {
       body: JSON.stringify(annotation)
     });
     const data = await res.json();
-    // TODO: Error handling
     return data as AnnotationType;
   }
 
   async remove(annotation: AnnotationType) {
-    // TODO: Error handling
-    console.log("DELETING", annotation);
     await fetch(`${this.baseURL}/${annotation.id}`, { method: 'DELETE' });
   }
 }
