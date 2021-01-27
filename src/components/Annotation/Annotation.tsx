@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useState } from 'react'
 
-import { Marker } from '../Marker/Marker';
+import { StyledMarker } from '../Marker/StyledMarker';
 import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { StyledAnnotationWrapper } from './StyledAnnotationWrapper';
@@ -24,7 +24,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateAnnotat
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
       isOpen={ishoveringOverMarker}
     >
-      <Marker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
+      <StyledMarker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
       <AnnotationTooltip
         data={data}
         updateAnnotation={updateAnnotation}

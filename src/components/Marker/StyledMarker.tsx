@@ -5,7 +5,7 @@ export const markerDimensions = {
   height: 19
 }
 
-export const Marker = styled.div`
+export const StyledMarker = styled.div`
   background: rgb(216, 216, 216);
   width: ${markerDimensions.width}px;
   height: ${markerDimensions.height}px;

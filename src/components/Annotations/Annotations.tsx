@@ -3,7 +3,7 @@ import { v4 as uuid } from 'uuid'
 
 import { Coord, AnnotationType } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
-import { markerDimensions } from '../Marker/Marker';
+import { markerDimensions } from '../Marker/StyledMarker';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from './useAnnotations';
 
