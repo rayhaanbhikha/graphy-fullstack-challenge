@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useState } from 'react'
+import React, { FunctionComponent, useState } from 'react'
 
 import { Marker } from '../Marker/Marker';
 import { AnnotationType } from '../../types';
@@ -7,61 +7,31 @@ import { StyledAnnotationWrapper } from './StyledAnnotationWrapper';
 
 export interface IAnnotation {
   data: AnnotationType,
-  updateHandler: (annotation: AnnotationType) => Promise<void>
-  removeHandler: (annotation: AnnotationType) => Promise<void>
+  updateAnnotation: (annotation: AnnotationType) => Promise<void>
+  removeAnnotation: (annotation: AnnotationType) => Promise<void>
   setdisableAnnotationCreation: (b: boolean) => void;
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateHandler, removeHandler, setdisableAnnotationCreation }) => {
-  const { id, coord, text } = data;
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateAnnotation, removeAnnotation, setdisableAnnotationCreation }) => {
+  const [ishoveringOverMarker, setishoveringOverMarker] = useState(false);
 
-  const [isOpen, setisOpen] = useState(true);
-  const [inEditMode, setisEditMode] = useState(true);
-
-  useEffect(() => {
-    setdisableAnnotationCreation(true);
-  }, [setdisableAnnotationCreation])
-
-  const onMouseEnter = () => !inEditMode && setisOpen(true);
-  const onMouseLeave = () => !inEditMode && setisOpen(false);
-
-  const onEditHandler = () => {
-    setisEditMode(true)
-    setdisableAnnotationCreation(true);
-  }
-
-  const onSaveHandler = (newAnnotatedText: string) => {
-    setisEditMode(false);
-    setdisableAnnotationCreation(false);
-    updateHandler({
-      id,
-      coord,
-      text: newAnnotatedText
-    })
-  }
-
-  const onDeleteHandler = () => {
-    removeHandler(data);
-    setdisableAnnotationCreation(false);
-  }
+  const onMouseEnter = () => setishoveringOverMarker(true);
+  const onMouseLeave = () => setishoveringOverMarker(false);
 
   return (
     <StyledAnnotationWrapper
-      coord={coord}
+      coord={data.coord}
+      // TODO: could remove this.
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
-      isOpen={isOpen}
+      isOpen={ishoveringOverMarker}
     >
       <Marker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-        <AnnotationTooltip
-          text={text}
-          onSaveHandler={onSaveHandler}
-          onEditHandler={onEditHandler}
-          onDeleteHandler={onDeleteHandler}
-          inEditMode={inEditMode}
-          isOpen={isOpen}
-        />
-      </div>
+      <AnnotationTooltip
+        data={data}
+        updateAnnotation={updateAnnotation}
+        removeAnnotation={removeAnnotation}
+        ishoveringOverMarker={ishoveringOverMarker}
+      />
     </StyledAnnotationWrapper >
   )
 }

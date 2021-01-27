@@ -38,8 +38,8 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
         <Annotation
           key={index}
           data={annotationData}
-          updateHandler={annotations.update}
-          removeHandler={annotations.remove}
+          updateAnnotation={annotations.update}
+          removeAnnotation={annotations.remove}
           setdisableAnnotationCreation={setdisableAnnotationCreation}
         />)}
     </StyledAnnotationsWrapper>
