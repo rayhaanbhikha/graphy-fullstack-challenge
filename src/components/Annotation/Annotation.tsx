@@ -27,7 +27,8 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, saveAnnotatio
       isOpen={isHoveringOverTooltip}
     >
       <StyledMarker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} inEditMode={inEditMode} />
-      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+
+      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ zIndex: inEditMode ? 999 : 800 }}>
         <AnnotationTooltip
           data={data}
           saveAnnotation={saveAnnotation}

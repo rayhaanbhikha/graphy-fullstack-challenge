@@ -59,10 +59,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   // TODO: css transition.
   return (
-    <StyledAnnotationTooltipWrapper
-      isOpen={ishoveringOverTooltip || inEditMode}
-      inEditMode={inEditMode}
-    >
+    <StyledAnnotationTooltipWrapper isOpen={ishoveringOverTooltip || inEditMode}>
       <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
       <StyledBtnWrapper>
         {
