@@ -9,10 +9,9 @@ export interface IAnnotation {
   data: AnnotationType,
   updateAnnotation: (annotation: AnnotationType) => Promise<void>
   removeAnnotation: (annotation: AnnotationType) => Promise<void>
-  setdisableAnnotationCreation: (b: boolean) => void;
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateAnnotation, removeAnnotation, setdisableAnnotationCreation }) => {
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateAnnotation, removeAnnotation }) => {
   const [ishoveringOverMarker, setishoveringOverMarker] = useState(false);
 
   const onMouseEnter = () => setishoveringOverMarker(true);

@@ -40,7 +40,6 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
           data={annotationData}
           updateAnnotation={annotations.update}
           removeAnnotation={annotations.remove}
-          setdisableAnnotationCreation={setdisableAnnotationCreation}
         />)}
     </StyledAnnotationsWrapper>
   )
