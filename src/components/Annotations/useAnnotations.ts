@@ -10,7 +10,6 @@ export const useAnnotations = (initialState: AnnotationType[]) => {
   }
 
   const update = async (newAnnotation: AnnotationType) => {
-    console.log("updating annotation: ", newAnnotation);
     // TODO: make api call.
     const updatedAnnotations = annotations.map(annotation => annotation.id === newAnnotation.id ? newAnnotation : annotation);
     setAnnotations(updatedAnnotations);

@@ -25,7 +25,6 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   const [disableAnnotationCreation, setdisableAnnotationCreation] = useState(false);
 
   useEffect(() => {
-    console.log("I was rendered");
     annotations.init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
