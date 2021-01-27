@@ -10,21 +10,21 @@ import { AnnotationType } from '../../types';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
+  ishoveringOverMarker: boolean;
   removeAnnotation: (annotation: AnnotationType) => Promise<void>;
   updateAnnotation: (annotation: AnnotationType) => Promise<void>;
-  ishoveringOverMarker: boolean;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, updateAnnotation, removeAnnotation, ishoveringOverMarker }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverMarker, updateAnnotation, removeAnnotation }) => {
 
   const { id, text, coord } = data;
+
   const [isHoveingOverToolTip, setisHoveingOverToolTip] = useState(true)
-  const [annotatedText, setIsAnnotatedText] = useState(text);
   const [inEditMode, setinEditMode] = useState(true);
+  const [annotatedText, setIsAnnotatedText] = useState(text);
 
   // change this.
   const onChangeHandler = (e: any) => setIsAnnotatedText(e.target.value)
-  const onEditHandler = () => setinEditMode(true);
 
   const onSaveHandler = () => {
     setinEditMode(false);
@@ -34,25 +34,21 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
       text: annotatedText
     })
   }
-  const onDeleteHandler = () => removeAnnotation(data);
-
-  const onMouseEnter = () => setisHoveingOverToolTip(true);
-  const onMouseLeave = () => setisHoveingOverToolTip(false);
 
   // TODO: cleanup component and add transition.
   return (
     <StyledAnnotationTooltipWrapper
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={() => setisHoveingOverToolTip(true)}
+      onMouseLeave={() => setisHoveingOverToolTip(false)}
       isOpen={ishoveringOverMarker || inEditMode || isHoveingOverToolTip} >
       <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
       <StyledBtnWrapper>
         {
           inEditMode ?
             <Save onClickHandler={onSaveHandler} /> :
-            <Pencil onClickHandler={onEditHandler} />
+            <Pencil onClickHandler={() => setinEditMode(true)} />
         }
-        <Bin onClickHandler={onDeleteHandler} />
+        <Bin onClickHandler={() => removeAnnotation(data)} />
       </StyledBtnWrapper>
     </StyledAnnotationTooltipWrapper >
   )
