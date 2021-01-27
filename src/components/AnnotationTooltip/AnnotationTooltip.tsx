@@ -23,8 +23,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   const [inEditMode, setinEditMode] = useState(true);
   const [annotatedText, setIsAnnotatedText] = useState(text);
 
-  // change this.
-  const onChangeHandler = (e: any) => setIsAnnotatedText(e.target.value)
+  const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
   const onSaveHandler = () => {
     setinEditMode(false);
