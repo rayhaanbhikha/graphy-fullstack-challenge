@@ -20,19 +20,25 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   const { id, text, coord } = data;
 
-  const [isHoveringOverToolTip, setisHoveringOverToolTip] = useState(true)
-  const [inEditMode, setinEditMode] = useState(true);
+  const [isHoveringOverToolTip, setisHoveringOverToolTip] = useState(false)
+  const [inEditMode, setinEditMode] = useState(false);
   const [annotatedText, setIsAnnotatedText] = useState(text);
 
   const { setAnnotationStateContext } = useContext(AnnotationStateContext);
 
   useEffect(() => {
-    setAnnotationStateContext(AnnotationStates.EDIT_MODE);
+    // make sure user is hovering over marker when this component loads.
+    if (ishoveringOverMarker) {
+      setinEditMode(true)
+      setisHoveringOverToolTip(true);
+      setAnnotationStateContext(AnnotationStates.EDIT_MODE);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
+  // TODO: should validate if string is empty or not.
   const onSaveHandler = () => {
     setinEditMode(false);
     setAnnotationStateContext(AnnotationStates.DEFAULT_MODE);
