@@ -36,8 +36,8 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
 
   return (
     <AnnotationStateContextProvider value={{
-      state: annotationStateContext,
-      toggleState: setAnnotationStateContext
+      value: annotationStateContext,
+      setAnnotationStateContext
     }}>
       {/* TODO: Box should appear with warning or errors. */}
       <StyledAnnotationsWrapper onClick={onClick}>

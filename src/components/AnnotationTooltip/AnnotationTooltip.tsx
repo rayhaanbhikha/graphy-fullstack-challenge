@@ -24,17 +24,18 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   const [inEditMode, setinEditMode] = useState(true);
   const [annotatedText, setIsAnnotatedText] = useState(text);
 
-  const { toggleState } = useContext(AnnotationStateContext);
+  const { setAnnotationStateContext } = useContext(AnnotationStateContext);
 
   useEffect(() => {
-    toggleState(AnnotationStates.EDIT_MODE);
+    setAnnotationStateContext(AnnotationStates.EDIT_MODE);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
   const onSaveHandler = () => {
     setinEditMode(false);
-    toggleState(AnnotationStates.DEFAULT_MODE);
+    setAnnotationStateContext(AnnotationStates.DEFAULT_MODE);
     updateAnnotation({
       id,
       coord,
@@ -44,11 +45,11 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   const onEditHandler = () => {
     setinEditMode(true);
-    toggleState(AnnotationStates.EDIT_MODE)
+    setAnnotationStateContext(AnnotationStates.EDIT_MODE)
   }
 
   const onDeleteHandler = () => {
-    toggleState(AnnotationStates.DEFAULT_MODE);
+    setAnnotationStateContext(AnnotationStates.DEFAULT_MODE);
     removeAnnotation(data)
   }
 

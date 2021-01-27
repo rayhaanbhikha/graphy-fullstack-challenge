@@ -6,8 +6,8 @@ export enum AnnotationStates {
 }
 
 export const AnnotationStateContext = createContext({
-  state: AnnotationStates.DEFAULT_MODE,
-  toggleState: (newAnnotationState: AnnotationStates) => { }
+  value: AnnotationStates.DEFAULT_MODE,
+  setAnnotationStateContext: (newAnnotationState: AnnotationStates) => { }
 })
 
 export const AnnotationStateContextProvider = AnnotationStateContext.Provider;
