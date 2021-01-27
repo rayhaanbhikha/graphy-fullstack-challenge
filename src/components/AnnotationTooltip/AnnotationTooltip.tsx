@@ -13,10 +13,10 @@ interface IAnnotationTooltip {
   data: AnnotationType,
   ishoveringOverMarker: boolean;
   removeAnnotation: (annotation: AnnotationType) => Promise<void>;
-  updateAnnotation: (annotation: AnnotationType) => Promise<void>;
+  saveAnnotation: (annotation: AnnotationType) => Promise<void>;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverMarker, updateAnnotation, removeAnnotation }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverMarker, saveAnnotation, removeAnnotation }) => {
 
   const { id, text, coord } = data;
 
@@ -42,7 +42,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   const onSaveHandler = () => {
     setinEditMode(false);
     setAnnotationStateContext(AnnotationStates.DEFAULT_MODE);
-    updateAnnotation({
+    saveAnnotation({
       id,
       coord,
       text: annotatedText

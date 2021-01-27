@@ -1,9 +1,9 @@
 import { useState } from 'react'; 
+import { AnnotationService } from '../../Annotations.service';
 
-import { AnnotationType, PartialAnnotationType } from '../../types';
-import { annotationService } from '../../Annotations.service';
+import { AnnotationType, Coord } from '../../types';
 
-export const useAnnotations = (initialState: AnnotationType[]) => {
+export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
   const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
 
   const init = async () => {
@@ -11,23 +11,24 @@ export const useAnnotations = (initialState: AnnotationType[]) => {
     setAnnotations(res);
   }
 
-  const update = async (newAnnotation: AnnotationType) => {
-    const updatedAnnotation = await annotationService.update(newAnnotation)
-    const updatedAnnotations = annotations.map(annotation => annotation.id === updatedAnnotation.id ? updatedAnnotation : annotation);
+  const save = async (newAnnotation: AnnotationType) => {
+    const savedAnnotation = await annotationService.save(newAnnotation)
+    const updatedAnnotations = annotations.map(annotation => annotation.id === savedAnnotation.id ? savedAnnotation : annotation);
     setAnnotations(updatedAnnotations);
-  }
-
-  // TODO: omit id field. use from api endpoint.
-  const create = async (annotation: PartialAnnotationType) => {
-    const createdAnnotation = await annotationService.create(annotation);
-    setAnnotations([...annotations, createdAnnotation]);
   }
 
   const remove = async (annotationToDelete: AnnotationType) => {
     await annotationService.remove(annotationToDelete)
+    console.log("before: ", annotations)
     const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
+    console.log("after: ", updatedAnnotations)
     setAnnotations(updatedAnnotations);
   }
 
-  return { value: annotations, init, create, update, remove };
+  const generate = (coord: Coord) => {
+    const annotation = annotationService.generate(coord)
+    setAnnotations([...annotations, annotation]);
+  };
+
+  return { value: annotations, generate, init, save, remove };
 }

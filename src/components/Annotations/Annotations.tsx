@@ -1,21 +1,11 @@
 import React, { useEffect, FunctionComponent, useState } from 'react'
 
-import { Coord, PartialAnnotationType } from '../../types';
+import { Coord } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
 import { AnnotationStateContextProvider, AnnotationStates } from '../hooks/AnnotationStateContext';
-import { markerDimensions } from '../Marker/StyledMarker';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from '../hooks/useAnnotations';
-
-// TODO: move me.
-export const createAnnotation = (coord: Coord): PartialAnnotationType => ({
-  // FIXME: get from server. needed to ensure is annotation is unique alternatively could've used coords of each annotation.
-  coord: {
-    x: coord.x - ((markerDimensions.width - 1) / 2), // centralise coords.
-    y: coord.y - ((markerDimensions.width - 1) / 2)
-  },
-  text: '',
-})
+import { annotationService } from '../../Annotations.service';
 
 interface IAnnotations {
   coord: Coord;
@@ -23,7 +13,7 @@ interface IAnnotations {
 
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   // TODO: error handling.
-  const annotations = useAnnotations([]);
+  const annotations = useAnnotations(annotationService, []);
   const [annotationStateContext, setAnnotationStateContext] = useState(AnnotationStates.DEFAULT_MODE);
 
   useEffect(() => {
@@ -31,7 +21,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClick = () => annotationStateContext === AnnotationStates.DEFAULT_MODE && annotations.create(createAnnotation(coord));
+  const onClick = () => annotationStateContext === AnnotationStates.DEFAULT_MODE && annotations.generate(coord);
 
   return (
     <AnnotationStateContextProvider value={{
@@ -42,13 +32,18 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       <button onClick={() => annotations.init()}>get annota</button>
       <div>{coord.x}:{coord.y}</div>
       <StyledAnnotationsWrapper onClick={onClick}>
-        {annotations.value.map((annotationData, index) =>
-          <Annotation
-            key={index}
-            data={annotationData}
-            updateAnnotation={annotations.update}
-            removeAnnotation={annotations.remove}
-          />)}
+        {
+          annotations.value.map((annotationData) => {
+            const { id, coord: { x, y } } = annotationData;
+            const key = `${id}:${x}:${y}`
+            return <Annotation
+              key={key}
+              data={annotationData}
+              saveAnnotation={annotations.save}
+              removeAnnotation={annotations.remove}
+            />
+          })
+        }
       </StyledAnnotationsWrapper>
     </AnnotationStateContextProvider >
   )

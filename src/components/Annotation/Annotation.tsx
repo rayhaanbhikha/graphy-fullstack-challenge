@@ -7,12 +7,13 @@ import { StyledAnnotationWrapper } from './StyledAnnotationWrapper';
 
 export interface IAnnotation {
   data: AnnotationType,
-  updateAnnotation: (annotation: AnnotationType) => Promise<void>
+  saveAnnotation: (annotation: AnnotationType) => Promise<void>
   removeAnnotation: (annotation: AnnotationType) => Promise<void>
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateAnnotation, removeAnnotation }) => {
-  const [ishoveringOverMarker, setishoveringOverMarker] = useState(false);
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, saveAnnotation, removeAnnotation }) => {
+  const isFetchedFromApi = data.id !== ''
+  const [ishoveringOverMarker, setishoveringOverMarker] = useState(!isFetchedFromApi);
 
   const onMouseEnter = () => setishoveringOverMarker(true);
   const onMouseLeave = () => setishoveringOverMarker(false);
@@ -20,14 +21,13 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, updateAnnotat
   return (
     <StyledAnnotationWrapper
       coord={data.coord}
-      // TODO: could remove this.
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
       isOpen={ishoveringOverMarker}
     >
       <StyledMarker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
       <AnnotationTooltip
         data={data}
-        updateAnnotation={updateAnnotation}
+        saveAnnotation={saveAnnotation}
         removeAnnotation={removeAnnotation}
         ishoveringOverMarker={ishoveringOverMarker}
       />
