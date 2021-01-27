@@ -7,6 +7,7 @@ import { markerDimensions } from '../Marker/StyledMarker';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from './useAnnotations';
 
+// TODO: move me.
 export const createAnnotation = (coord: Coord): AnnotationType => ({
   id: uuid(), // FIXME: get from server. needed to ensure is annotation is unique alternatively could've used coords of each annotation.
   coord: {

@@ -19,7 +19,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   const { id, text, coord } = data;
 
-  const [isHoveingOverToolTip, setisHoveingOverToolTip] = useState(true)
+  const [isHoveringOverToolTip, setisHoveringOverToolTip] = useState(true)
   const [inEditMode, setinEditMode] = useState(true);
   const [annotatedText, setIsAnnotatedText] = useState(text);
 
@@ -34,14 +34,14 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
     })
   }
 
-  const onMouseEnter = () => setisHoveingOverToolTip(true)
-  const onMouseLeave = () => setisHoveingOverToolTip(false)
+  const onMouseEnter = () => setisHoveringOverToolTip(true)
+  const onMouseLeave = () => setisHoveringOverToolTip(false)
 
   // TODO: css transition.
   return (
     <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <StyledAnnotationTooltipWrapper
-        isOpen={ishoveringOverMarker || inEditMode || isHoveingOverToolTip} >
+        isOpen={ishoveringOverMarker || isHoveringOverToolTip || inEditMode} >
         <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
         <StyledBtnWrapper>
           {
