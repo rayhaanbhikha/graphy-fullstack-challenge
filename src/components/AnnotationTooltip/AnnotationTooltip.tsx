@@ -11,26 +11,24 @@ import { AnnotationStateContext, AnnotationStates } from '../hooks/AnnotationSta
 
 interface IAnnotationTooltip {
   data: AnnotationType,
-  ishoveringOverMarker: boolean;
+  ishoveringOverTooltip: boolean;
+  inEditMode: boolean;
+  setinEditMode: any;
   removeAnnotation: (annotation: AnnotationType) => Promise<void>;
   saveAnnotation: (annotation: AnnotationType) => Promise<void>;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverMarker, saveAnnotation, removeAnnotation }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverTooltip, inEditMode, setinEditMode, saveAnnotation, removeAnnotation }) => {
 
   const { id, text, coord } = data;
 
-  const [isHoveringOverToolTip, setisHoveringOverToolTip] = useState(false)
-  const [inEditMode, setinEditMode] = useState(false);
   const [annotatedText, setIsAnnotatedText] = useState(text);
-
   const { setAnnotationStateContext } = useContext(AnnotationStateContext);
 
   useEffect(() => {
-    // make sure user is hovering over marker when this component loads.
-    if (ishoveringOverMarker) {
+    // make sure user is hovering over marker when this component loads the first time.
+    if (ishoveringOverTooltip) {
       setinEditMode(true)
-      setisHoveringOverToolTip(true);
       setAnnotationStateContext(AnnotationStates.EDIT_MODE);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,24 +57,21 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
     removeAnnotation(data)
   }
 
-  const onMouseEnter = () => setisHoveringOverToolTip(true)
-  const onMouseLeave = () => setisHoveringOverToolTip(false)
-
   // TODO: css transition.
   return (
-    <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
-      <StyledAnnotationTooltipWrapper
-        isOpen={ishoveringOverMarker || isHoveringOverToolTip || inEditMode} >
-        <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
-        <StyledBtnWrapper>
-          {
-            inEditMode ?
-              <Save onClickHandler={onSaveHandler} /> :
-              <Pencil onClickHandler={onEditHandler} />
-          }
-          <Bin onClickHandler={onDeleteHandler} />
-        </StyledBtnWrapper>
-      </StyledAnnotationTooltipWrapper >
-    </div>
+    <StyledAnnotationTooltipWrapper
+      isOpen={ishoveringOverTooltip || inEditMode}
+      inEditMode={inEditMode}
+    >
+      <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
+      <StyledBtnWrapper>
+        {
+          inEditMode ?
+            <Save onClickHandler={onSaveHandler} /> :
+            <Pencil onClickHandler={onEditHandler} />
+        }
+        <Bin onClickHandler={onDeleteHandler} />
+      </StyledBtnWrapper>
+    </StyledAnnotationTooltipWrapper >
   )
 }

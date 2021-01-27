@@ -13,7 +13,9 @@ export interface IAnnotation {
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ data, saveAnnotation, removeAnnotation }) => {
   const isFetchedFromApi = data.id !== ''
-  const [ishoveringOverMarker, setishoveringOverMarker] = useState(!isFetchedFromApi);
+
+  const [inEditMode, setinEditMode] = useState(false);
+  const [isHoveringOverTooltip, setishoveringOverMarker] = useState(!isFetchedFromApi);
 
   const onMouseEnter = () => setishoveringOverMarker(true);
   const onMouseLeave = () => setishoveringOverMarker(false);
@@ -22,15 +24,19 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, saveAnnotatio
     <StyledAnnotationWrapper
       coord={data.coord}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
-      isOpen={ishoveringOverMarker}
+      isOpen={isHoveringOverTooltip}
     >
-      <StyledMarker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} />
-      <AnnotationTooltip
-        data={data}
-        saveAnnotation={saveAnnotation}
-        removeAnnotation={removeAnnotation}
-        ishoveringOverMarker={ishoveringOverMarker}
-      />
+      <StyledMarker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} inEditMode={inEditMode} />
+      <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <AnnotationTooltip
+          data={data}
+          saveAnnotation={saveAnnotation}
+          removeAnnotation={removeAnnotation}
+          ishoveringOverTooltip={isHoveringOverTooltip}
+          inEditMode={inEditMode}
+          setinEditMode={setinEditMode}
+        />
+      </div>
     </StyledAnnotationWrapper >
   )
 }
