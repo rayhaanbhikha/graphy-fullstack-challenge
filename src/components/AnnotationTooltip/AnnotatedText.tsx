@@ -15,5 +15,5 @@ export const AnnotatedText: FunctionComponent<IAnnotatedText> = ({ inEditMode, o
     if (inEditMode) textAreaRef?.current?.focus();
   }, [inEditMode])
 
-  return <StyledTextArea ref={textAreaRef} onChange={onChangeHandler} value={text} readOnly={!inEditMode} />
+  return <StyledTextArea ref={textAreaRef} onChange={onChangeHandler} value={text} readOnly={!inEditMode} disabled={!inEditMode} />
 }

@@ -15,4 +15,5 @@ export const StyledTextArea = styled.textarea.attrs<IStyledTextArea>(props => ({
   background: ${props => props.readOnly ? 'inherit' : 'white'};
   margin: 5px;
   padding: 2px;
+  color: black;
 `
