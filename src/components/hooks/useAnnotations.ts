@@ -3,9 +3,15 @@ import { AnnotationService, DEFAULT_ID } from '../../Annotations.service';
 
 import { AnnotationType, Coord } from '../../types';
 
+export enum AnnotationStates {
+  EDIT_MODE,
+  DEFAULT_MODE
+}
+
 export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
+  const [annotationState, setAnnotationState] = useState(AnnotationStates.DEFAULT_MODE);
 
   const init = async () => {
     try {
@@ -53,9 +59,19 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
   }
 
   const generate = (coord: Coord) => {
+    if (annotationState === AnnotationStates.EDIT_MODE) return;
     const annotation = annotationService.generate(coord)
     setAnnotations([...annotations, annotation]);
   };
 
-  return { value: annotations, errorMessage, generate, init, save, remove };
+  return {
+    value: annotations,
+    errorMessage,
+    setErrorMessage,
+    setAnnotationState,
+    generate,
+    init,
+    save,
+    remove
+  };
 }

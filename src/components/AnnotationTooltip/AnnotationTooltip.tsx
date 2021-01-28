@@ -7,29 +7,28 @@ import { Bin } from '../Icons/Bin';
 import { AnnotatedText } from './AnnotatedText';
 import { Save } from '../Icons/Save';
 import { AnnotationType } from '../../types';
-import { AnnotationStateContext, AnnotationStates } from '../hooks/AnnotationStateContext';
+import { AnnotationStateContext } from '../hooks/AnnotationStateContext';
+import { AnnotationStates } from '../hooks/useAnnotations';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
   ishoveringOverTooltip: boolean;
   inEditMode: boolean;
   setinEditMode: any;
-  removeAnnotation: (annotation: AnnotationType) => Promise<void>;
-  saveAnnotation: (annotation: AnnotationType) => Promise<void>;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverTooltip, inEditMode, setinEditMode, saveAnnotation, removeAnnotation }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverTooltip, inEditMode, setinEditMode }) => {
 
   const { id, text, coord } = data;
 
   const [annotatedText, setIsAnnotatedText] = useState(text);
-  const { setAnnotationStateContext } = useContext(AnnotationStateContext);
+  const { save, remove, setErrorMessage, setAnnotationState } = useContext(AnnotationStateContext);
 
   useEffect(() => {
     // make sure user is hovering over marker when this component loads the first time.
     if (ishoveringOverTooltip) {
       setinEditMode(true)
-      setAnnotationStateContext(AnnotationStates.EDIT_MODE);
+      setAnnotationState(AnnotationStates.EDIT_MODE);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
@@ -38,9 +37,13 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   // TODO: should validate if string is empty or not.
   const onSaveHandler = () => {
+    if (annotatedText === '') {
+      setErrorMessage("Annotation text cannot be empty.")
+      return;
+    }
     setinEditMode(false);
-    setAnnotationStateContext(AnnotationStates.DEFAULT_MODE);
-    saveAnnotation({
+    setAnnotationState(AnnotationStates.DEFAULT_MODE);
+    save({
       id,
       coord,
       text: annotatedText
@@ -49,12 +52,12 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   const onEditHandler = () => {
     setinEditMode(true);
-    setAnnotationStateContext(AnnotationStates.EDIT_MODE)
+    setAnnotationState(AnnotationStates.EDIT_MODE)
   }
 
   const onDeleteHandler = () => {
-    setAnnotationStateContext(AnnotationStates.DEFAULT_MODE);
-    removeAnnotation(data)
+    setAnnotationState(AnnotationStates.DEFAULT_MODE);
+    remove(data)
   }
 
   // TODO: css transition.

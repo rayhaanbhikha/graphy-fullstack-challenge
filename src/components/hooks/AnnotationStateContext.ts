@@ -1,13 +1,17 @@
 import { createContext } from "react";
-
-export enum AnnotationStates {
-  EDIT_MODE,
-  DEFAULT_MODE
-}
+import { AnnotationType, Coord } from "../../types";
+import { AnnotationStates } from "./useAnnotations";
 
 export const AnnotationStateContext = createContext({
-  value: AnnotationStates.DEFAULT_MODE,
-  setAnnotationStateContext: (newAnnotationState: AnnotationStates) => { }
+  value: [] as AnnotationType[],
+  errorMessage: '',
+  setErrorMessage: (error: string) => {},
+  setAnnotationState: (state: AnnotationStates) => {},
+  generate: (coord: Coord) => {},
+  init: () => {},
+  save: (annotation: AnnotationType) => {},
+  remove: (annotation: AnnotationType) => {}
+
 })
 
 export const AnnotationStateContextProvider = AnnotationStateContext.Provider;

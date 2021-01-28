@@ -7,11 +7,9 @@ import { StyledAnnotationWrapper } from './StyledAnnotationWrapper';
 
 export interface IAnnotation {
   data: AnnotationType,
-  saveAnnotation: (annotation: AnnotationType) => Promise<void>
-  removeAnnotation: (annotation: AnnotationType) => Promise<void>
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data, saveAnnotation, removeAnnotation }) => {
+export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
   const isFetchedFromApi = data.id !== ''
 
   const [inEditMode, setinEditMode] = useState(false);
@@ -31,8 +29,6 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, saveAnnotatio
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ zIndex: inEditMode ? 999 : 800 }}>
         <AnnotationTooltip
           data={data}
-          saveAnnotation={saveAnnotation}
-          removeAnnotation={removeAnnotation}
           ishoveringOverTooltip={isHoveringOverTooltip}
           inEditMode={inEditMode}
           setinEditMode={setinEditMode}
