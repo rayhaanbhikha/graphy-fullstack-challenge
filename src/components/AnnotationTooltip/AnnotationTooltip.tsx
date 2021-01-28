@@ -1,4 +1,5 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import styled from 'styled-components';
 
 import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
 import { StyledBtnWrapper } from './StyledBtnWrapper';
@@ -17,9 +18,15 @@ interface IAnnotationTooltip {
   setinEditMode: any;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) => {
+interface IAnnotationTooltipWrapper {
+  inEditMode: boolean;
+}
 
-  const { data, isHovering, inEditMode, setinEditMode } = props;
+const AnnotationTooltipWrapper = styled.div<IAnnotationTooltipWrapper>`
+  z-index: ${props => props.inEditMode ? 999 : 800};
+`
+
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode }) => {
   const { id, text, coord } = data;
 
   const [annotatedText, setIsAnnotatedText] = useState(text);
@@ -36,7 +43,6 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) 
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
-  // TODO: should validate if string is empty or not.
   const onSaveHandler = () => {
     if (annotatedText === '') {
       setErrorMessage("Annotation text cannot be empty.")
@@ -63,16 +69,18 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) 
 
   // TODO: css transition.
   return (
-    <StyledAnnotationTooltipWrapper isOpen={isHovering || inEditMode}>
-      <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
-      <StyledBtnWrapper>
-        {
-          inEditMode ?
-            <Save onClickHandler={onSaveHandler} /> :
-            <Pencil onClickHandler={onEditHandler} />
-        }
-        <Bin onClickHandler={onDeleteHandler} />
-      </StyledBtnWrapper>
-    </StyledAnnotationTooltipWrapper >
+    <AnnotationTooltipWrapper inEditMode={inEditMode} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
+      <StyledAnnotationTooltipWrapper isOpen={isHovering || inEditMode}>
+        <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
+        <StyledBtnWrapper>
+          {
+            inEditMode ?
+              <Save onClickHandler={onSaveHandler} /> :
+              <Pencil onClickHandler={onEditHandler} />
+          }
+          <Bin onClickHandler={onDeleteHandler} />
+        </StyledBtnWrapper>
+      </StyledAnnotationTooltipWrapper >
+    </AnnotationTooltipWrapper>
   )
 }
