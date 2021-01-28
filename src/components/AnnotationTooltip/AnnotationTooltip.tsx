@@ -17,8 +17,9 @@ interface IAnnotationTooltip {
   setinEditMode: any;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, ishoveringOverTooltip, inEditMode, setinEditMode }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) => {
 
+  const { data, ishoveringOverTooltip, inEditMode, setinEditMode } = props;
   const { id, text, coord } = data;
 
   const [annotatedText, setIsAnnotatedText] = useState(text);

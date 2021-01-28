@@ -7,7 +7,7 @@ export interface IStyledAnnotationTooltipWrapper {
 export const StyledAnnotationTooltipWrapper = styled.div<IStyledAnnotationTooltipWrapper>`
   background: rgb(216, 216, 216);
   margin-left: 5px;
-  min-width: 300px;
+  min-width: 200px;
   min-height: 100px;
   border-radius: 5px;
   display: ${props => props.isOpen ? 'flex' : 'none'};
