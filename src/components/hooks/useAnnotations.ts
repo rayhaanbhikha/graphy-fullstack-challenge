@@ -1,5 +1,5 @@
 import { useState } from 'react'; 
-import { AnnotationService } from '../../Annotations.service';
+import { AnnotationService, DEFAULT_ID } from '../../Annotations.service';
 
 import { AnnotationType, Coord } from '../../types';
 
@@ -14,31 +14,41 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
       setErrorMessage('');
     } catch (error) {
       console.error(error);
-      setErrorMessage("Error retrieving your annotation")
+      setErrorMessage("Error retrieving annotations")
     }
   }
 
-  const save = async (newAnnotation: AnnotationType) => {
+  const save = async (annotation: AnnotationType) => {
     try {
-      const savedAnnotation = await annotationService.save(newAnnotation)
-      const updatedAnnotations = annotations.map(annotation => annotation.id === savedAnnotation.id ? savedAnnotation : annotation);
+      let updatedAnnotations: AnnotationType[] = [];
+
+      if (annotation.id === DEFAULT_ID) {
+        const savedAnnotation = await annotationService.save(annotation)
+        updatedAnnotations = annotations.map(annotation => annotation.id === DEFAULT_ID ? savedAnnotation : annotation);
+      } else {
+        const updatedAnnotation = await annotationService.update(annotation);
+        updatedAnnotations = annotations.map(annotation => annotation.id === updatedAnnotation.id ? updatedAnnotation : annotation);
+      }
+
       setAnnotations(updatedAnnotations);
       setErrorMessage('');
     } catch (error) {
       console.error(error);
-      setErrorMessage("Error saving your annotation")
+      setErrorMessage("Error saving annotation")
     }
   }
 
   const remove = async (annotationToDelete: AnnotationType) => {
     try {
-      await annotationService.remove(annotationToDelete)
+      if (annotationToDelete.id !== DEFAULT_ID)
+        await annotationService.remove(annotationToDelete)
+      
       const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
       setAnnotations(updatedAnnotations);
       setErrorMessage('');
     } catch (error) {
       console.error(error);
-      setErrorMessage("Error deleting your annotation")
+      setErrorMessage("Error deleting annotation")
     }
   }
 

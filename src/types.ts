@@ -8,5 +8,3 @@ export interface AnnotationType {
   coord: Coord;
   text: string;
 }
-
-export type PartialAnnotationType = Omit<AnnotationType, 'id'>
