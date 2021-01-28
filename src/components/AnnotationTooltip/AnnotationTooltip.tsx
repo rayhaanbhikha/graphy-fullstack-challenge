@@ -12,14 +12,14 @@ import { AnnotationStates } from '../hooks/useAnnotations';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
-  ishoveringOverTooltip: boolean;
+  isHovering: boolean;
   inEditMode: boolean;
   setinEditMode: any;
 }
 
 export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) => {
 
-  const { data, ishoveringOverTooltip, inEditMode, setinEditMode } = props;
+  const { data, isHovering, inEditMode, setinEditMode } = props;
   const { id, text, coord } = data;
 
   const [annotatedText, setIsAnnotatedText] = useState(text);
@@ -27,7 +27,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) 
 
   useEffect(() => {
     // make sure user is hovering over marker when this component loads the first time.
-    if (ishoveringOverTooltip) {
+    if (isHovering) {
       setinEditMode(true)
       setAnnotationState(AnnotationStates.EDIT_MODE);
     }
@@ -63,7 +63,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = (props) 
 
   // TODO: css transition.
   return (
-    <StyledAnnotationTooltipWrapper isOpen={ishoveringOverTooltip || inEditMode}>
+    <StyledAnnotationTooltipWrapper isOpen={isHovering || inEditMode}>
       <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
       <StyledBtnWrapper>
         {
