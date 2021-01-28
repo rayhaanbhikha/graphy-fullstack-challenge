@@ -4,16 +4,17 @@ import { StyledMarker } from '../Marker/StyledMarker';
 import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { StyledAnnotationWrapper } from './StyledAnnotationWrapper';
+import { DEFAULT_ID } from '../../Annotations.service';
 
 export interface IAnnotation {
   data: AnnotationType,
 }
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
-  const isFetchedFromApi = data.id !== ''
+  const isCreatedByUser = data.id === DEFAULT_ID
 
   const [inEditMode, setinEditMode] = useState(false);
-  const [isHoveringOverTooltip, setishoveringOverMarker] = useState(!isFetchedFromApi);
+  const [isHoveringOverTooltip, setishoveringOverMarker] = useState(isCreatedByUser);
 
   const onMouseEnter = () => setishoveringOverMarker(true);
   const onMouseLeave = () => setishoveringOverMarker(false);
