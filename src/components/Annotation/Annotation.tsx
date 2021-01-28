@@ -26,6 +26,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
     >
       <StyledMarker onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} inEditMode={inEditMode} />
 
+      {/* TODO: remove style */}
       <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} style={{ zIndex: inEditMode ? 999 : 800 }}>
         <AnnotationTooltip
           data={data}
