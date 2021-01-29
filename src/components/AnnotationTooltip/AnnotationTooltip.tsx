@@ -16,9 +16,11 @@ interface IAnnotationTooltip {
   isHovering: boolean;
   inEditMode: boolean;
   setinEditMode: any;
+  onMouseEnter: (event: React.MouseEvent) => void;
+  onMouseLeave: (event: React.MouseEvent) => void;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode, onMouseEnter, onMouseLeave }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
   const { id, text, coord } = data;
 
@@ -63,7 +65,8 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
     <StyledAnnotationTooltipWrapper
       inEditMode={inEditMode}
       isHovering={isHovering}
-      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <StyledAnnotationTooltip>
         <StyledTextArea

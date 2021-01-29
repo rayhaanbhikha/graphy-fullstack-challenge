@@ -23,12 +23,12 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
     <StyledAnnotationWrapper
       coord={data.coord}
       isOpen={isHovering}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onClick={(e: React.MouseEvent) => e.stopPropagation()}
     >
       <StyledMarker
         inEditMode={inEditMode}
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       />
 
       <AnnotationTooltip
@@ -36,6 +36,8 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
         isHovering={isHovering}
         inEditMode={inEditMode}
         setinEditMode={setinEditMode}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
       />
     </StyledAnnotationWrapper >
   )
