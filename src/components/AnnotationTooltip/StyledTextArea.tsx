@@ -12,7 +12,6 @@ export const StyledTextArea = styled.textarea.attrs<IStyledTextArea>(props => ({
   min-width: inherit;
   border: none;
   background: ${props => !props.inEditMode ? 'inherit' : 'white'};
-  margin: 5px;
-  padding: 2px;
+  margin: 2px;
   color: black;
 `;

@@ -73,7 +73,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
               <Save onClickHandler={onSaveHandler} /> :
               <Pencil onClickHandler={onEditHandler} />
           }
-          <Bin onClickHandler={onDeleteHandler} />
+          <Bin onClickHandler={() => { }} />
         </StyledBtnWrapper>
       </StyledAnnotationTooltip>
     </PositionAnnotationTooltip>

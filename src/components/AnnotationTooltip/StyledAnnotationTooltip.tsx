@@ -9,4 +9,5 @@ export const StyledAnnotationTooltip = styled.div`
   flex-direction: column;
   justify-content: space-between;
   border: solid 1px rgb(173,173,173);
+  padding: 3px;
 `
