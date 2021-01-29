@@ -11,7 +11,8 @@ export const StyledTextArea = styled.textarea.attrs<IStyledTextArea>(props => ({
   flex-grow: 3;
   min-width: inherit;
   border: none;
-  background: ${props => !props.inEditMode ? 'inherit' : 'white'};
+  background: ${props => props.inEditMode ? 'white' : 'inherit'};
   margin: 2px;
   color: black;
+  cursor: ${props => props.inEditMode ? 'text' : 'inherit'}
 `;

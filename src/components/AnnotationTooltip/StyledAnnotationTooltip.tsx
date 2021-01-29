@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledAnnotationTooltip = styled.div`
+export const StyledAnnotationTooltip = styled.div<any>`
   background: rgb(216, 216, 216);
   min-width: 200px;
   min-height: 100px;
@@ -10,4 +10,9 @@ export const StyledAnnotationTooltip = styled.div`
   justify-content: space-between;
   border: solid 1px rgb(173,173,173);
   padding: 3px;
+  cursor: ${props => {
+    if (props.inEditMode) return 'initial';
+    if (props.isDragging) return 'grabbing';
+    return 'grab';
+  }};
 `

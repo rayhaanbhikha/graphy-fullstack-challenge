@@ -14,6 +14,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
 
   const [inEditMode, setinEditMode] = useState(isCreatedByUser);
   const [isHovering, setIsHovering] = useState(isCreatedByUser);
+  const [isDragging, setisDragging] = useState(false)
 
   const onMouseEnter = () => setIsHovering(true)
   const onMouseLeave = () => setIsHovering(false)
@@ -28,6 +29,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
       }
     }
     e.dataTransfer.setData("annotation", JSON.stringify(payload));
+    setisDragging(true);
   }
 
   return (
@@ -41,11 +43,13 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
         onMouseLeave={onMouseLeave}
         draggable={Boolean(data.text)}
         onDragStart={onDragStartHandler}
+        onDragEnd={(e) => setisDragging(false)}
       >
         <AnnotationTooltip
           data={data}
           inEditMode={inEditMode}
           isHovering={isHovering}
+          isDragging={isDragging}
           setinEditMode={setinEditMode}
         />
       </StyledMarker>
