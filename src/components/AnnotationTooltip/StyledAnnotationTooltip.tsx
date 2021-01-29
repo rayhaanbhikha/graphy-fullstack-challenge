@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledAnnotationTooltip = styled.div<any>`
+export const StyledAnnotationTooltip = styled.div`
   background: rgb(216, 216, 216);
   min-width: 200px;
   min-height: 100px;

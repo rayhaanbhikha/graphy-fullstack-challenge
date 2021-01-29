@@ -6,8 +6,13 @@ export const markerDimensions = {
   height: 19
 }
 
-// TODO: make interface
-export const StyledMarker = styled.div<{ inEditMode: boolean, isHovering: boolean, coord: Coord }>`
+export interface IStyledMarker {
+  inEditMode: boolean;
+  isHovering: boolean;
+  coord: Coord;
+}
+
+export const StyledMarker = styled.div<IStyledMarker>`
   position: absolute;
   top: ${props => props.coord.y}px;
   left: ${props => props.coord.x}px;

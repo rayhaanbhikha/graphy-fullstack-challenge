@@ -60,7 +60,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   // TODO: css transition.
   return (
     <PositionAnnotationTooltip>
-      <StyledAnnotationTooltip inEditMode={inEditMode}>
+      <StyledAnnotationTooltip>
         <StyledTextArea
           ref={textAreaRef}
           value={annotatedText}
