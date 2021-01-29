@@ -13,11 +13,13 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
   const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
   const [annotationState, setAnnotationState] = useState(AnnotationStates.DEFAULT_MODE);
 
+  const setDefaultErrorMessage = () => errorMessage !== '' && setErrorMessage('');
+
   const init = async () => {
     try {
       const res = await annotationService.getAll();
       setAnnotations(res);
-      setErrorMessage('');
+      setDefaultErrorMessage();
     } catch (error) {
       console.error(error);
       setErrorMessage("Error retrieving annotations")
@@ -37,7 +39,7 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
       }
 
       setAnnotations(updatedAnnotations);
-      setErrorMessage('');
+      setDefaultErrorMessage();
     } catch (error) {
       console.error(error);
       setErrorMessage("Error saving annotation")
@@ -51,7 +53,7 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
       
       const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
       setAnnotations(updatedAnnotations);
-      setErrorMessage('');
+      setDefaultErrorMessage();
     } catch (error) {
       console.error(error);
       setErrorMessage("Error deleting annotation")
