@@ -27,13 +27,12 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
     >
-      {(isHovering || inEditMode) &&
-        <AnnotationTooltip
-          data={data}
-          inEditMode={inEditMode}
-          setinEditMode={setinEditMode}
-        />
-      }
+      <AnnotationTooltip
+        data={data}
+        inEditMode={inEditMode}
+        isHovering={isHovering}
+        setinEditMode={setinEditMode}
+      />
     </StyledMarker>
   )
 }

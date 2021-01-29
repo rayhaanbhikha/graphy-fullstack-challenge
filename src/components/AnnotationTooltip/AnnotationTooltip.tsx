@@ -13,11 +13,12 @@ import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
+  isHovering: boolean;
   inEditMode: boolean;
   setinEditMode: any;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, inEditMode, setinEditMode }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
   const { id, text, coord } = data;
 
@@ -59,7 +60,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   // TODO: css transition.
   return (
-    <PositionAnnotationTooltip>
+    <PositionAnnotationTooltip isOpen={isHovering || inEditMode}>
       <StyledAnnotationTooltip>
         <StyledTextArea
           ref={textAreaRef}
