@@ -7,4 +7,6 @@ export const PositionAnnotationTooltip = styled.div<{ isOpen: boolean; }>`
   top: 0;
   padding-left: 5px;
   visibility: ${props => props.isOpen ? 'initial' : 'hidden'};
+  opacity: ${props => props.isOpen ? 100 : 0};
+  transition: visibility 0.5s, opacity 0.5s ease;
 `

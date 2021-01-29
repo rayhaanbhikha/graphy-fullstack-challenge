@@ -58,7 +58,6 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
     remove(data)
   }
 
-  // TODO: css transition.
   return (
     <PositionAnnotationTooltip isOpen={isHovering || inEditMode}>
       <StyledAnnotationTooltip>
