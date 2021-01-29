@@ -24,7 +24,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
 
   return (
     <AnnotationStateContextProvider value={annotations}>
-      { annotations.errorMessage !== '' && <StyledErrorBar>{annotations.errorMessage}</StyledErrorBar>}
+      { annotations.errorMessage && <StyledErrorBar>{annotations.errorMessage}</StyledErrorBar>}
       <StyledAnnotationsWrapper onClick={onClick}>
         {
           annotations.value.map((annotationData, index) => {

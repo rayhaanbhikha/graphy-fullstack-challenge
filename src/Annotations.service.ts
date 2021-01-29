@@ -1,10 +1,11 @@
 import { markerDimensions } from "./components/Marker/StyledMarker";
+import { apiBaseURL } from "./config";
 import { AnnotationType, Coord } from "./types";
 
 export const DEFAULT_ID = '';
-
 export class AnnotationService {
-  private baseURL = 'http://localhost:8080/annotations';
+
+  constructor(private url: string) {}
 
   generate(coord: Coord): AnnotationType {
     const { x, y} = coord;
@@ -19,13 +20,13 @@ export class AnnotationService {
   }
 
   async getAll() {
-    const res = await fetch(`${this.baseURL}/`)
+    const res = await fetch(this.url)
     const data = await res.json();
     return data as AnnotationType[];
   }
   
   async save(annotation: AnnotationType) {
-    const res = await fetch(`${this.baseURL}/`, {
+    const res = await fetch(this.url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -37,7 +38,7 @@ export class AnnotationService {
   }
 
   async update(annotation: AnnotationType) {
-    const res = await fetch(`${this.baseURL}/`, {
+    const res = await fetch(this.url, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -49,8 +50,8 @@ export class AnnotationService {
   }
 
   async remove(annotation: AnnotationType) {
-    await fetch(`${this.baseURL}/${annotation.id}`, { method: 'DELETE' });
+    await fetch(`${this.url}/${annotation.id}`, { method: 'DELETE' });
   }
 }
 
-export const annotationService = new AnnotationService();
+export const annotationService = new AnnotationService(apiBaseURL);
