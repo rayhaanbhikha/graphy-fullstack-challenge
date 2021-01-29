@@ -18,21 +18,37 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
   const onMouseEnter = () => setIsHovering(true)
   const onMouseLeave = () => setIsHovering(false)
 
+  const onDragStartHandler = (e: React.DragEvent<HTMLDivElement>) => {
+    e.persist();
+    const payload = {
+      annotationData: data,
+      mouseCoord: {
+        x: e.pageX,
+        y: e.pageY
+      }
+    }
+    e.dataTransfer.setData("annotation", JSON.stringify(payload));
+  }
+
   return (
-    <StyledMarker
-      coord={data.coord}
-      inEditMode={inEditMode}
-      isHovering={isHovering}
-      onClick={(e: React.MouseEvent) => e.stopPropagation()}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <AnnotationTooltip
-        data={data}
+    <>
+      <StyledMarker
+        coord={data.coord}
         inEditMode={inEditMode}
         isHovering={isHovering}
-        setinEditMode={setinEditMode}
-      />
-    </StyledMarker>
+        onClick={(e: React.MouseEvent) => (isHovering || inEditMode) && e.stopPropagation()}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        draggable={Boolean(data.text)}
+        onDragStart={onDragStartHandler}
+      >
+        <AnnotationTooltip
+          data={data}
+          inEditMode={inEditMode}
+          isHovering={isHovering}
+          setinEditMode={setinEditMode}
+        />
+      </StyledMarker>
+    </>
   )
 }

@@ -22,10 +22,41 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
 
   const onClick = () => annotations.generate(coord);
 
+  const onDropHandler = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.persist();
+
+    const { annotationData, mouseCoord } = JSON.parse(e.dataTransfer.getData("annotation"));
+
+    const oldCoords = annotationData.coord as Coord;
+    const vector = {
+      x: oldCoords.x - mouseCoord.x,
+      y: oldCoords.y - mouseCoord.y
+    }
+
+    const newMouseCoord = {
+      x: e.pageX,
+      y: e.pageY
+    }
+
+    const newCoord = {
+      x: newMouseCoord.x + vector.x,
+      y: newMouseCoord.y + vector.y
+    }
+
+    annotationData.coord = newCoord;
+    annotations.save(annotationData);
+  }
+
   return (
     <AnnotationStateContextProvider value={annotations}>
       { annotations.errorMessage && <StyledErrorBar>{annotations.errorMessage}</StyledErrorBar>}
-      <StyledAnnotationsWrapper onClick={onClick}>
+      <StyledAnnotationsWrapper onClick={onClick} onDrop={onDropHandler}
+
+        onDragOver={(e) => {
+          e.preventDefault();
+        }}
+      >
         {
           annotations.value.map((annotationData, index) => {
             const { x, y } = annotationData.coord;
