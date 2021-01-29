@@ -8,19 +8,16 @@ import { Save } from '../Icons/Save';
 import { AnnotationType } from '../../types';
 import { AnnotationStateContext } from '../hooks/AnnotationStateContext';
 import { AnnotationStates } from '../hooks/useAnnotations';
-import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
 import { StyledTextArea } from './StyledTextArea';
+import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
-  isHovering: boolean;
   inEditMode: boolean;
   setinEditMode: any;
-  onMouseEnter: (event: React.MouseEvent) => void;
-  onMouseLeave: (event: React.MouseEvent) => void;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode, onMouseEnter, onMouseLeave }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, inEditMode, setinEditMode }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
   const { id, text, coord } = data;
 
@@ -62,13 +59,8 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   // TODO: css transition.
   return (
-    <StyledAnnotationTooltipWrapper
-      inEditMode={inEditMode}
-      isHovering={isHovering}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
-      <StyledAnnotationTooltip>
+    <PositionAnnotationTooltip>
+      <StyledAnnotationTooltip inEditMode={inEditMode}>
         <StyledTextArea
           ref={textAreaRef}
           value={annotatedText}
@@ -83,7 +75,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
           }
           <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>
-      </StyledAnnotationTooltip >
-    </StyledAnnotationTooltipWrapper>
+      </StyledAnnotationTooltip>
+    </PositionAnnotationTooltip>
   )
 }
