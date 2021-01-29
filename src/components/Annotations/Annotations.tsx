@@ -27,11 +27,10 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
       { annotations.errorMessage !== '' && <StyledErrorBar>{annotations.errorMessage}</StyledErrorBar>}
       <StyledAnnotationsWrapper onClick={onClick}>
         {
-          annotations.value.map((annotationData) => {
-            const { id, coord: { x, y } } = annotationData;
-            const key = `${id}:${x}:${y}`
+          annotations.value.map((annotationData, index) => {
+            const { x, y } = annotationData.coord;
             return <Annotation
-              key={key}
+              key={`${index}:${x}:${y}`}
               data={annotationData}
             />
           })

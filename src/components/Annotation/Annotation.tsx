@@ -13,7 +13,7 @@ export interface IAnnotation {
 export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
   const isCreatedByUser = data.id === DEFAULT_ID
 
-  const [inEditMode, setinEditMode] = useState(false);
+  const [inEditMode, setinEditMode] = useState(isCreatedByUser);
   const [isHovering, setIsHovering] = useState(isCreatedByUser);
 
   const onMouseEnter = () => setIsHovering(true)

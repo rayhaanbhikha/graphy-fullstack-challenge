@@ -1,15 +1,15 @@
-import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
+import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react'
 
-import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
+import { StyledAnnotationTooltip } from './StyledAnnotationTooltip';
 import { StyledBtnWrapper } from './StyledBtnWrapper';
 import { Pencil } from '../Icons/Pencil';
 import { Bin } from '../Icons/Bin';
-import { AnnotatedText } from './AnnotatedText';
 import { Save } from '../Icons/Save';
 import { AnnotationType } from '../../types';
 import { AnnotationStateContext } from '../hooks/AnnotationStateContext';
 import { AnnotationStates } from '../hooks/useAnnotations';
-import { AnnotationTooltipWrapper } from './AnnotationTooltipWrapper';
+import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
+import { StyledTextArea } from './StyledTextArea';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
@@ -19,19 +19,18 @@ interface IAnnotationTooltip {
 }
 
 export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode }) => {
+  const textAreaRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
   const { id, text, coord } = data;
 
   const [annotatedText, setIsAnnotatedText] = useState(text);
   const { save, remove, setErrorMessage, setAnnotationState } = useContext(AnnotationStateContext);
 
   useEffect(() => {
-    // make sure user is hovering over marker when this component loads the first time.
-    if (isHovering) {
-      setinEditMode(true)
+    if (inEditMode) {
       setAnnotationState(AnnotationStates.EDIT_MODE);
+      textAreaRef?.current?.focus();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [inEditMode, setAnnotationState])
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
@@ -61,16 +60,17 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   // TODO: css transition.
   return (
-    <AnnotationTooltipWrapper
+    <StyledAnnotationTooltipWrapper
       inEditMode={inEditMode}
       isHovering={isHovering}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
     >
-      <StyledAnnotationTooltipWrapper>
-        <AnnotatedText
-          onChangeHandler={onChangeHandler}
-          text={annotatedText}
+      <StyledAnnotationTooltip>
+        <StyledTextArea
+          ref={textAreaRef}
+          value={annotatedText}
           inEditMode={inEditMode}
+          onChange={onChangeHandler}
         />
         <StyledBtnWrapper>
           {
@@ -80,7 +80,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
           }
           <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>
-      </StyledAnnotationTooltipWrapper >
-    </AnnotationTooltipWrapper>
+      </StyledAnnotationTooltip >
+    </StyledAnnotationTooltipWrapper>
   )
 }
