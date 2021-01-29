@@ -38,12 +38,12 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
         coord={data.coord}
         inEditMode={inEditMode}
         isHovering={isHovering}
-        onClick={(e: React.MouseEvent) => (isHovering || inEditMode) && e.stopPropagation()}
+        onClick={(e: React.MouseEvent) => e.stopPropagation()}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         draggable={Boolean(data.text)}
         onDragStart={onDragStartHandler}
-        onDragEnd={(e) => setisDragging(false)}
+        onDragEnd={() => setisDragging(false)}
       >
         <AnnotationTooltip
           data={data}
