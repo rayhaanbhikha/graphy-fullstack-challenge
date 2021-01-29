@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext, useEffect, useState } from 'react'
-import styled from 'styled-components';
 
 import { StyledAnnotationTooltipWrapper } from './StyledAnnotationTooltipWrapper';
 import { StyledBtnWrapper } from './StyledBtnWrapper';
@@ -10,6 +9,7 @@ import { Save } from '../Icons/Save';
 import { AnnotationType } from '../../types';
 import { AnnotationStateContext } from '../hooks/AnnotationStateContext';
 import { AnnotationStates } from '../hooks/useAnnotations';
+import { AnnotationTooltipWrapper } from './AnnotationTooltipWrapper';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
@@ -17,14 +17,6 @@ interface IAnnotationTooltip {
   inEditMode: boolean;
   setinEditMode: any;
 }
-
-interface IAnnotationTooltipWrapper {
-  inEditMode: boolean;
-}
-
-const AnnotationTooltipWrapper = styled.div<IAnnotationTooltipWrapper>`
-  z-index: ${props => props.inEditMode ? 999 : 800};
-`
 
 export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode }) => {
   const { id, text, coord } = data;
@@ -44,7 +36,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
   const onSaveHandler = () => {
-    if (annotatedText === '') {
+    if (!annotatedText) {
       setErrorMessage("Annotation text cannot be empty.")
       return;
     }
@@ -69,9 +61,17 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
 
   // TODO: css transition.
   return (
-    <AnnotationTooltipWrapper inEditMode={inEditMode} onClick={(e: React.MouseEvent) => e.stopPropagation()}>
-      <StyledAnnotationTooltipWrapper isOpen={isHovering || inEditMode}>
-        <AnnotatedText onChangeHandler={onChangeHandler} text={annotatedText} inEditMode={inEditMode} />
+    <AnnotationTooltipWrapper
+      inEditMode={inEditMode}
+      isHovering={isHovering}
+      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+    >
+      <StyledAnnotationTooltipWrapper>
+        <AnnotatedText
+          onChangeHandler={onChangeHandler}
+          text={annotatedText}
+          inEditMode={inEditMode}
+        />
         <StyledBtnWrapper>
           {
             inEditMode ?
