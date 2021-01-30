@@ -74,7 +74,6 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
       onMouseLeave={onMouseLeave}
       draggable={isDraggable()}
       onDragStart={onDragStartHandler}
-      onDragEnd={() => dispatch(AnnotationActions.CLOSE)}
     >
       <AnnotationTooltip
         data={data}
