@@ -1,4 +1,4 @@
-import { AnnotationState } from "./components/Annotation/Annotation";
+import { AnnotationStates } from "./components/Annotation/Annotation";
 import { markerDimensions } from "./components/Marker/StyledMarker";
 import { apiBaseURL } from "./config";
 import { AnnotationType, AnnotationWithStateType, Coord } from "./types";
@@ -17,7 +17,7 @@ export class AnnotationService {
         y: y - Math.round((markerDimensions.width - 1) / 2)
       },
       text: '',
-      state: AnnotationState.EDITING
+      state: AnnotationStates.EDITING
     }
   }
 
@@ -30,7 +30,7 @@ export class AnnotationService {
     }
   }
 
-  deserialise(annotation: AnnotationType, annotationState: AnnotationState): AnnotationWithStateType {
+  deserialise(annotation: AnnotationType, annotationState: AnnotationStates): AnnotationWithStateType {
     return {
       ...annotation,
       state: annotationState
@@ -41,7 +41,7 @@ export class AnnotationService {
     const res = await fetch(this.url)
     const data = await res.json();
     const annotations = data as AnnotationType[]
-    return annotations.map(annotation => this.deserialise(annotation, AnnotationState.CLOSED))
+    return annotations.map(annotation => this.deserialise(annotation, AnnotationStates.CLOSED))
   }
   
   async save(annotation: AnnotationWithStateType) {

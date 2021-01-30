@@ -8,13 +8,13 @@ import { Save } from '../Icons/Save';
 
 import { StyledTextArea } from './StyledTextArea';
 import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
-import { AnnotationState } from '../Annotation/Annotation';
+import { AnnotationStates } from '../Annotation/Annotation';
 import { AnnotationActions } from '../Annotation/annotationReducer';
 import { AnnotationWithStateType } from '../../types';
 
 interface IAnnotationTooltip {
   data: AnnotationWithStateType,
-  annotationState: AnnotationState;
+  annotationState: AnnotationStates;
   dispatchHandler: (action: AnnotationActions, annotation: AnnotationWithStateType) => void;
 }
 
@@ -24,7 +24,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
   const [annotatedText, setIsAnnotatedText] = useState(data.text);
 
   useEffect(() => {
-    if (annotationState === AnnotationState.EDITING) {
+    if (annotationState === AnnotationStates.EDITING) {
       textAreaRef?.current?.focus();
     }
   }, [annotationState])
@@ -41,12 +41,12 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data,
         <StyledTextArea
           ref={textAreaRef}
           value={annotatedText}
-          inEditMode={annotationState === AnnotationState.EDITING}
+          inEditMode={annotationState === AnnotationStates.EDITING}
           onChange={onChangeHandler}
         />
         <StyledBtnWrapper>
           {
-            annotationState === AnnotationState.EDITING ? <Save onClickHandler={onSaveHandler} /> : <Pencil onClickHandler={onEditHandler} />
+            annotationState === AnnotationStates.EDITING ? <Save onClickHandler={onSaveHandler} /> : <Pencil onClickHandler={onEditHandler} />
           }
           <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>

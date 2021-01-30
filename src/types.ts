@@ -1,4 +1,4 @@
-import { AnnotationState } from "./components/Annotation/Annotation";
+import { AnnotationStates } from "./components/Annotation/Annotation";
 
 export interface Coord {
   x: number;
@@ -11,4 +11,4 @@ export interface AnnotationType {
   text: string;
 }
 
-export type AnnotationWithStateType = AnnotationType & { state: AnnotationState }
+export type AnnotationWithStateType = AnnotationType & { state: AnnotationStates }

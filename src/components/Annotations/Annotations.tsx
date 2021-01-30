@@ -1,7 +1,7 @@
 import React, { useEffect, FunctionComponent, useState } from 'react'
 
 import { Coord } from '../../types';
-import { Annotation, AnnotationState } from '../Annotation/Annotation';
+import { Annotation, AnnotationStates } from '../Annotation/Annotation';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from '../hooks/useAnnotations';
 import { annotationService } from '../../Annotations.service';
@@ -50,7 +50,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
     }
 
     annotationData.coord = newCoord;
-    annotationData.state = AnnotationState.OPEN
+    annotationData.state = AnnotationStates.OPEN
     annotations.save(annotationData);
   }
 

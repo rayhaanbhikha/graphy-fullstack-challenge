@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { AnnotationState } from "../Annotation/Annotation";
+import { AnnotationStates } from "../Annotation/Annotation";
 
 export interface IStyledAnnotationTooltip {
-  annotationState: AnnotationState;
+  annotationState: AnnotationStates;
 }
 
 export const StyledAnnotationTooltip = styled.div<IStyledAnnotationTooltip>`
@@ -16,8 +16,8 @@ export const StyledAnnotationTooltip = styled.div<IStyledAnnotationTooltip>`
   border: solid 1px rgb(173,173,173);
   padding: 3px;
   cursor: ${props => {
-    if (props.annotationState === AnnotationState.EDITING) return 'initial';
-    if (props.annotationState === AnnotationState.DRAGGING) return 'grabbing';
+    if (props.annotationState === AnnotationStates.EDITING) return 'initial';
+    if (props.annotationState === AnnotationStates.DRAGGING) return 'grabbing';
     return 'grab';
   }};
 `

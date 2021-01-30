@@ -13,7 +13,7 @@ export interface IAnnotation {
   remove: (annotation: AnnotationWithStateType) => void;
 }
 
-export enum AnnotationState {
+export enum AnnotationStates {
   OPEN,
   CLOSED,
   EDITING,
@@ -26,10 +26,8 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
 
   useEffect(() => {
     console.log(state);
-    if (state === AnnotationState.EDITING) {
+    if (state === AnnotationStates.EDITING) {
       setapplicationState(ApplicationState.EDIT_MODE);
-    } else {
-      setapplicationState(ApplicationState.DEFAULT_MODE);
     }
   }, [state, setapplicationState])
 
@@ -49,16 +47,18 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
     dispatch(AnnotationActions.DRAG)
   }
 
-  const isDraggable = () => state !== AnnotationState.EDITING && Boolean(data.text);
+  const isDraggable = () => state !== AnnotationStates.EDITING && Boolean(data.text);
 
   const onDispatchHandler = (action: AnnotationActions, annotation: AnnotationWithStateType) => {
     dispatch(action);
     switch (action) {
       case AnnotationActions.DELETE:
         remove(annotation);
+        setapplicationState(ApplicationState.DEFAULT_MODE);
         break;
       case AnnotationActions.SAVE:
         save(annotation);
+        setapplicationState(ApplicationState.DEFAULT_MODE);
         break;
     }
   }
