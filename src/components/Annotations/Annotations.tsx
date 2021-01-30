@@ -1,7 +1,7 @@
 import React, { useEffect, FunctionComponent, useState } from 'react'
 
 import { Coord } from '../../types';
-import { Annotation } from '../Annotation/Annotation';
+import { Annotation, AnnotationState } from '../Annotation/Annotation';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from '../hooks/useAnnotations';
 import { annotationService } from '../../Annotations.service';
@@ -25,7 +25,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const onClick = () => applicationState !== ApplicationState.EDIT_MODE && annotations.generate(coord);
+  const onClick = () => applicationState !== ApplicationState.EDIT_MODE && annotations.create(coord);
 
   const onDropHandler = (e: React.DragEvent) => {
     e.preventDefault();
@@ -50,6 +50,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
     }
 
     annotationData.coord = newCoord;
+    annotationData.state = AnnotationState.OPEN
     annotations.save(annotationData);
   }
 

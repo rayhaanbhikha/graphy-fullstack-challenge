@@ -1,33 +1,31 @@
 import React, { FunctionComponent, useEffect, useReducer } from 'react'
 
 import { StyledMarker } from '../Marker/StyledMarker';
-import { AnnotationType } from '../../types';
+import { AnnotationWithStateType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
-import { DEFAULT_ID } from '../../Annotations.service';
 import { ApplicationState } from '../Annotations/Annotations';
 import { AnnotationActions, annotationStateReducer } from './annotationReducer';
 
 export interface IAnnotation {
-  data: AnnotationType;
+  data: AnnotationWithStateType;
   setapplicationState: (state: ApplicationState) => void;
-  save: (annotation: AnnotationType) => void;
-  remove: (annotation: AnnotationType) => void;
+  save: (annotation: AnnotationWithStateType) => void;
+  remove: (annotation: AnnotationWithStateType) => void;
 }
 
 export enum AnnotationState {
   OPEN,
   CLOSED,
   EDITING,
+  DELETING,
   DRAGGING
 }
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicationState, save, remove }) => {
-  const isCreatedByUser = data.id === DEFAULT_ID
-
-  const initState = isCreatedByUser ? AnnotationState.EDITING : AnnotationState.CLOSED
-  const [state, dispatch] = useReducer(annotationStateReducer, initState);
+  const [state, dispatch] = useReducer(annotationStateReducer, data.state);
 
   useEffect(() => {
+    console.log(state);
     if (state === AnnotationState.EDITING) {
       setapplicationState(ApplicationState.EDIT_MODE);
     } else {
@@ -53,7 +51,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
 
   const isDraggable = () => state !== AnnotationState.EDITING && Boolean(data.text);
 
-  const onDispatchHandler = (action: AnnotationActions, annotation: AnnotationType) => {
+  const onDispatchHandler = (action: AnnotationActions, annotation: AnnotationWithStateType) => {
     dispatch(action);
     switch (action) {
       case AnnotationActions.DELETE:

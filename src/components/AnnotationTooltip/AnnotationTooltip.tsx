@@ -5,16 +5,17 @@ import { StyledBtnWrapper } from './StyledBtnWrapper';
 import { Pencil } from '../Icons/Pencil';
 import { Bin } from '../Icons/Bin';
 import { Save } from '../Icons/Save';
-import { AnnotationType } from '../../types';
+
 import { StyledTextArea } from './StyledTextArea';
 import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
 import { AnnotationState } from '../Annotation/Annotation';
 import { AnnotationActions } from '../Annotation/annotationReducer';
+import { AnnotationWithStateType } from '../../types';
 
 interface IAnnotationTooltip {
-  data: AnnotationType,
+  data: AnnotationWithStateType,
   annotationState: AnnotationState;
-  dispatchHandler: (action: AnnotationActions, annotation: AnnotationType) => void;
+  dispatchHandler: (action: AnnotationActions, annotation: AnnotationWithStateType) => void;
 }
 
 export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, annotationState, dispatchHandler }) => {

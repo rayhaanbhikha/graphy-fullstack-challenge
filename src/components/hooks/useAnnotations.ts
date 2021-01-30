@@ -1,11 +1,11 @@
 import { useState } from 'react'; 
 import { AnnotationService, DEFAULT_ID } from '../../Annotations.service';
 
-import { AnnotationType, Coord } from '../../types';
+import { AnnotationWithStateType, Coord } from '../../types';
 
-export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
+export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationWithStateType[]) => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
+  const [annotations, setAnnotations] = useState<AnnotationWithStateType[]>(initialState)
 
   const setDefaultErrorMessage = () => errorMessage !== '' && setErrorMessage('');
 
@@ -20,9 +20,9 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     }
   }
 
-  const save = async (annotation: AnnotationType) => {
+  const save = async (annotation: AnnotationWithStateType) => {
     try {
-      let updatedAnnotations: AnnotationType[] = [];
+      let updatedAnnotations: AnnotationWithStateType[] = [];
 
       if (annotation.id === DEFAULT_ID) {
         const savedAnnotation = await annotationService.save(annotation)
@@ -40,7 +40,7 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     }
   }
 
-  const remove = async (annotationToDelete: AnnotationType) => {
+  const remove = async (annotationToDelete: AnnotationWithStateType) => {
     try {
       if (annotationToDelete.id !== DEFAULT_ID)
         await annotationService.remove(annotationToDelete)
@@ -54,8 +54,8 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     }
   }
 
-  const generate = (coord: Coord) => {
-    const annotation = annotationService.generate(coord)
+  const create = (coord: Coord) => {
+    const annotation = annotationService.create(coord)
     setAnnotations([...annotations, annotation]);
   };
 
@@ -63,7 +63,7 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     value: annotations,
     errorMessage,
     setErrorMessage,
-    generate,
+    create,
     init,
     save,
     remove

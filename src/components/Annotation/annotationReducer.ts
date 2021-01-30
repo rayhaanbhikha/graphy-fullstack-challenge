@@ -10,6 +10,7 @@ export enum AnnotationActions {
 }
 
 export const annotationStateReducer = (state: AnnotationState, action: AnnotationActions) => {
+  console.log(action);
   switch (action) {
     case AnnotationActions.SAVE:
       return AnnotationState.OPEN;
@@ -25,6 +26,7 @@ export const annotationStateReducer = (state: AnnotationState, action: Annotatio
       if (state === AnnotationState.EDITING) return state;
       return AnnotationState.DRAGGING;
     case AnnotationActions.DELETE:
+      return AnnotationState.DELETING;
     default:
       return state;
   }
