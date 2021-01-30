@@ -1,14 +1,14 @@
 import { AnnotationStates } from "./components/Annotation/Annotation";
 import { markerDimensions } from "./components/Marker/StyledMarker";
 import { apiBaseURL } from "./config";
-import { AnnotationType, AnnotationWithStateType, Coord } from "./types";
+import { AnnotationType, Coord } from "./types";
 
 export const DEFAULT_ID = '';
 export class AnnotationService {
 
   constructor(private url: string) {}
 
-  create(coord: Coord): AnnotationWithStateType {
+  create(coord: Coord): AnnotationType {
     const { x, y } = coord;
     return {
       _id: DEFAULT_ID,
@@ -21,7 +21,7 @@ export class AnnotationService {
     }
   }
 
-  serialise(annotation: AnnotationWithStateType): AnnotationType {
+  serialise(annotation: AnnotationType): Omit<AnnotationType, 'state'> {
     const { _id, text, coord } = annotation;
     return {
       _id,
@@ -30,8 +30,9 @@ export class AnnotationService {
     }
   }
 
-  deserialise(annotation: AnnotationType, annotationState: AnnotationStates): AnnotationWithStateType {
-    const { _id, coord, text } = annotation;
+  deserialise(annotation: object, annotationState: AnnotationStates): AnnotationType {
+    // TODO: validation needed.
+    const { _id, coord, text } = annotation as AnnotationType;
     return {
       _id,
       coord,
@@ -47,7 +48,7 @@ export class AnnotationService {
     return annotations.map(annotation => this.deserialise(annotation, AnnotationStates.CLOSED))
   }
   
-  async save(annotation: AnnotationWithStateType) {
+  async save(annotation: AnnotationType) {
     const res = await fetch(this.url, {
       method: 'POST',
       headers: {
@@ -59,7 +60,7 @@ export class AnnotationService {
     return this.deserialise(data, annotation.state);
   }
 
-  async update(annotation: AnnotationWithStateType) {
+  async update(annotation: AnnotationType) {
     const res = await fetch(this.url, {
       method: 'PUT',
       headers: {
@@ -71,7 +72,7 @@ export class AnnotationService {
     return this.deserialise(data, annotation.state);
   }
 
-  async remove(annotation: AnnotationWithStateType) {
+  async remove(annotation: AnnotationType) {
     const resourceURL = `${this.url}/${annotation._id}`
     await fetch(resourceURL, { method: 'DELETE' });
   }

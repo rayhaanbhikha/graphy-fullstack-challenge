@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useEffect, useState } from 'react'
 
 import { StyledMarker } from '../Marker/StyledMarker';
-import { AnnotationWithStateType } from '../../types';
+import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { ApplicationState } from '../Annotations/Annotations';
 
 export interface IAnnotation {
-  data: AnnotationWithStateType;
+  data: AnnotationType;
   setapplicationState: (state: ApplicationState) => void;
-  save: (annotation: AnnotationWithStateType) => void;
-  remove: (annotation: AnnotationWithStateType) => void;
+  save: (annotation: AnnotationType) => void;
+  remove: (annotation: AnnotationType) => void;
 }
 
 export enum AnnotationStates {
@@ -44,7 +44,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
     setAnnnotationState(AnnotationStates.DRAGGING);
   }
 
-  const onSaveHandler = async (annotation: AnnotationWithStateType) => {
+  const onSaveHandler = async (annotation: AnnotationType) => {
     save(annotation);
     setAnnnotationState(AnnotationStates.OPEN);
     setapplicationState(ApplicationState.DEFAULT_MODE);

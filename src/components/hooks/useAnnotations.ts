@@ -1,11 +1,11 @@
 import { useState } from 'react'; 
 import { AnnotationService, DEFAULT_ID } from '../../Annotations.service';
 
-import { AnnotationWithStateType, Coord } from '../../types';
+import { AnnotationType, Coord } from '../../types';
 
-export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationWithStateType[]) => {
+export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
   const [errorMessage, setErrorMessage] = useState("");
-  const [annotations, setAnnotations] = useState<AnnotationWithStateType[]>(initialState)
+  const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
 
   const setDefaultErrorMessage = () => errorMessage !== '' && setErrorMessage('');
 
@@ -20,9 +20,9 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     }
   }
 
-  const save = async (annotation: AnnotationWithStateType) => {
+  const save = async (annotation: AnnotationType) => {
     try {
-      let updatedAnnotations: AnnotationWithStateType[] = [];
+      let updatedAnnotations: AnnotationType[] = [];
 
       if (annotation._id === DEFAULT_ID) {
         const savedAnnotation = await annotationService.save(annotation)
@@ -40,7 +40,7 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     }
   }
 
-  const remove = async (annotationToDelete: AnnotationWithStateType) => {
+  const remove = async (annotationToDelete: AnnotationType) => {
     try {
       if (annotationToDelete._id !== DEFAULT_ID)
         await annotationService.remove(annotationToDelete)

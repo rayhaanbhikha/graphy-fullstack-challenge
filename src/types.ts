@@ -9,6 +9,5 @@ export interface AnnotationType {
   _id: string;
   coord: Coord;
   text: string;
+  state: AnnotationStates
 }
-
-export type AnnotationWithStateType = AnnotationType & { state: AnnotationStates }
