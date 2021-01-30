@@ -11,7 +11,7 @@ export class AnnotationService {
   create(coord: Coord): AnnotationWithStateType {
     const { x, y } = coord;
     return {
-      id: DEFAULT_ID,
+      _id: DEFAULT_ID,
       coord: {
         x: x - Math.round((markerDimensions.width - 1) / 2), // centralise coords.
         y: y - Math.round((markerDimensions.width - 1) / 2)
@@ -22,17 +22,20 @@ export class AnnotationService {
   }
 
   serialise(annotation: AnnotationWithStateType): AnnotationType {
-    const { id, text, coord } = annotation;
+    const { _id, text, coord } = annotation;
     return {
-      id,
+      _id,
       text,
       coord
     }
   }
 
   deserialise(annotation: AnnotationType, annotationState: AnnotationStates): AnnotationWithStateType {
+    const { _id, coord, text } = annotation;
     return {
-      ...annotation,
+      _id,
+      coord,
+      text,
       state: annotationState
     }
   }
@@ -69,7 +72,7 @@ export class AnnotationService {
   }
 
   async remove(annotation: AnnotationWithStateType) {
-    const resourceURL = `${this.url}/${annotation.id}`
+    const resourceURL = `${this.url}/${annotation._id}`
     await fetch(resourceURL, { method: 'DELETE' });
   }
 }

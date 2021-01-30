@@ -24,12 +24,12 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
     try {
       let updatedAnnotations: AnnotationWithStateType[] = [];
 
-      if (annotation.id === DEFAULT_ID) {
+      if (annotation._id === DEFAULT_ID) {
         const savedAnnotation = await annotationService.save(annotation)
-        updatedAnnotations = annotations.map(annotation => annotation.id === DEFAULT_ID ? savedAnnotation : annotation);
+        updatedAnnotations = annotations.map(annotation => annotation._id === DEFAULT_ID ? savedAnnotation : annotation);
       } else {
         const updatedAnnotation = await annotationService.update(annotation);
-        updatedAnnotations = annotations.map(annotation => annotation.id === updatedAnnotation.id ? updatedAnnotation : annotation);
+        updatedAnnotations = annotations.map(annotation => annotation._id === updatedAnnotation._id ? updatedAnnotation : annotation);
       }
 
       setAnnotations(updatedAnnotations);
@@ -42,10 +42,10 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
 
   const remove = async (annotationToDelete: AnnotationWithStateType) => {
     try {
-      if (annotationToDelete.id !== DEFAULT_ID)
+      if (annotationToDelete._id !== DEFAULT_ID)
         await annotationService.remove(annotationToDelete)
       
-      const updatedAnnotations = annotations.filter(annotation => annotation.id !== annotationToDelete.id);
+      const updatedAnnotations = annotations.filter(annotation => annotation._id !== annotationToDelete._id);
       setAnnotations(updatedAnnotations);
       setDefaultErrorMessage();
     } catch (error) {

@@ -6,7 +6,7 @@ export interface Coord {
 }
 
 export interface AnnotationType {
-  id: string;
+  _id: string;
   coord: Coord;
   text: string;
 }
