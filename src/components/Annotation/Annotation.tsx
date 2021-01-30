@@ -1,23 +1,42 @@
-import React, { FunctionComponent, useState } from 'react'
+import React, { FunctionComponent, useEffect, useReducer } from 'react'
 
 import { StyledMarker } from '../Marker/StyledMarker';
 import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
 import { DEFAULT_ID } from '../../Annotations.service';
+import { ApplicationState } from '../Annotations/Annotations';
+import { AnnotationActions, annotationStateReducer } from './annotationReducer';
 
 export interface IAnnotation {
-  data: AnnotationType,
+  data: AnnotationType;
+  setapplicationState: (state: ApplicationState) => void;
+  save: (annotation: AnnotationType) => void;
+  remove: (annotation: AnnotationType) => void;
 }
 
-export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
+export enum AnnotationState {
+  OPEN,
+  CLOSED,
+  EDITING,
+  DRAGGING
+}
+
+export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicationState, save, remove }) => {
   const isCreatedByUser = data.id === DEFAULT_ID
 
-  const [inEditMode, setinEditMode] = useState(isCreatedByUser);
-  const [isHovering, setIsHovering] = useState(isCreatedByUser);
-  const [isDragging, setisDragging] = useState(false)
+  const initState = isCreatedByUser ? AnnotationState.EDITING : AnnotationState.CLOSED
+  const [state, dispatch] = useReducer(annotationStateReducer, initState);
 
-  const onMouseEnter = () => setIsHovering(true)
-  const onMouseLeave = () => setIsHovering(false)
+  useEffect(() => {
+    if (state === AnnotationState.EDITING) {
+      setapplicationState(ApplicationState.EDIT_MODE);
+    } else {
+      setapplicationState(ApplicationState.DEFAULT_MODE);
+    }
+  }, [state, setapplicationState])
+
+  const onMouseEnter = () => dispatch(AnnotationActions.OPEN)
+  const onMouseLeave = () => dispatch(AnnotationActions.CLOSE)
 
   const onDragStartHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.persist();
@@ -29,29 +48,38 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
       }
     }
     e.dataTransfer.setData("annotation", JSON.stringify(payload));
-    setisDragging(true);
+    dispatch(AnnotationActions.DRAG)
   }
 
-  const isDraggable = () => !inEditMode && Boolean(data.text);
+  const isDraggable = () => state !== AnnotationState.EDITING && Boolean(data.text);
+
+  const onDispatchHandler = (action: AnnotationActions, annotation: AnnotationType) => {
+    dispatch(action);
+    switch (action) {
+      case AnnotationActions.DELETE:
+        remove(annotation);
+        break;
+      case AnnotationActions.SAVE:
+        save(annotation);
+        break;
+    }
+  }
 
   return (
     <StyledMarker
       coord={data.coord}
-      inEditMode={inEditMode}
-      isHovering={isHovering}
+      annotationState={state}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       draggable={isDraggable()}
       onDragStart={onDragStartHandler}
-      onDragEnd={() => setisDragging(false)}
+      onDragEnd={() => dispatch(AnnotationActions.CLOSE)}
     >
       <AnnotationTooltip
         data={data}
-        inEditMode={inEditMode}
-        isHovering={isHovering}
-        isDragging={isDragging}
-        setinEditMode={setinEditMode}
+        annotationState={state}
+        dispatchHandler={onDispatchHandler}
       />
     </StyledMarker>
   )

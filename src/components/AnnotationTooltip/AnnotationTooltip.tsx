@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useContext, useEffect, useRef, useState } from 'react'
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react'
 
 import { StyledAnnotationTooltip } from './StyledAnnotationTooltip';
 import { StyledBtnWrapper } from './StyledBtnWrapper';
@@ -6,73 +6,46 @@ import { Pencil } from '../Icons/Pencil';
 import { Bin } from '../Icons/Bin';
 import { Save } from '../Icons/Save';
 import { AnnotationType } from '../../types';
-import { AnnotationStateContext } from '../hooks/AnnotationStateContext';
-import { AnnotationStates } from '../hooks/useAnnotations';
 import { StyledTextArea } from './StyledTextArea';
 import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
+import { AnnotationState } from '../Annotation/Annotation';
+import { AnnotationActions } from '../Annotation/annotationReducer';
 
 interface IAnnotationTooltip {
   data: AnnotationType,
-  isHovering: boolean;
-  isDragging: boolean;
-  inEditMode: boolean;
-  setinEditMode: any;
+  annotationState: AnnotationState;
+  dispatchHandler: (action: AnnotationActions, annotation: AnnotationType) => void;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, isHovering, inEditMode, setinEditMode, isDragging }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, annotationState, dispatchHandler }) => {
   const textAreaRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
-  const { id, text, coord } = data;
 
-  const [annotatedText, setIsAnnotatedText] = useState(text);
-  const { save, remove, setErrorMessage, setAnnotationState } = useContext(AnnotationStateContext);
+  const [annotatedText, setIsAnnotatedText] = useState(data.text);
 
   useEffect(() => {
-    if (inEditMode) {
-      setAnnotationState(AnnotationStates.EDIT_MODE);
+    if (annotationState === AnnotationState.EDITING) {
       textAreaRef?.current?.focus();
     }
-  }, [inEditMode, setAnnotationState])
+  }, [annotationState])
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
-  const onSaveHandler = () => {
-    if (!annotatedText) {
-      setErrorMessage("Annotation text cannot be empty.")
-      return;
-    }
-    setinEditMode(false);
-    setAnnotationState(AnnotationStates.DEFAULT_MODE);
-    save({
-      id,
-      coord,
-      text: annotatedText
-    })
-  }
-
-  const onEditHandler = () => {
-    setinEditMode(true);
-    setAnnotationState(AnnotationStates.EDIT_MODE)
-  }
-
-  const onDeleteHandler = () => {
-    setAnnotationState(AnnotationStates.DEFAULT_MODE);
-    remove(data)
-  }
+  const onSaveHandler = () => dispatchHandler(AnnotationActions.SAVE, { ...data, text: annotatedText })
+  const onEditHandler = () => dispatchHandler(AnnotationActions.EDIT, data);
+  const onDeleteHandler = () => dispatchHandler(AnnotationActions.DELETE, data);
 
   return (
-    <PositionAnnotationTooltip isOpen={isHovering || inEditMode}>
-      <StyledAnnotationTooltip inEditMode={inEditMode} isDragging={isDragging}>
+    <PositionAnnotationTooltip annotationState={annotationState}>
+      <StyledAnnotationTooltip annotationState={annotationState}>
         <StyledTextArea
           ref={textAreaRef}
           value={annotatedText}
-          inEditMode={inEditMode}
+          inEditMode={annotationState === AnnotationState.EDITING}
           onChange={onChangeHandler}
         />
         <StyledBtnWrapper>
           {
-            inEditMode ?
-              <Save onClickHandler={onSaveHandler} /> :
-              <Pencil onClickHandler={onEditHandler} />
+            annotationState === AnnotationState.EDITING ? <Save onClickHandler={onSaveHandler} /> : <Pencil onClickHandler={onEditHandler} />
           }
           <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>

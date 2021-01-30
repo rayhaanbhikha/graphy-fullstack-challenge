@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Coord } from '../../types';
+import { AnnotationState } from '../Annotation/Annotation';
 
 export const markerDimensions = {
   width: 19,
@@ -7,8 +8,7 @@ export const markerDimensions = {
 }
 
 export interface IStyledMarker {
-  inEditMode: boolean;
-  isHovering: boolean;
+  annotationState: AnnotationState;
   coord: Coord;
 }
 
@@ -23,8 +23,8 @@ export const StyledMarker = styled.div<IStyledMarker>`
   border: solid 1px rgb(173, 173, 173);
   cursor: pointer;
   z-index: ${props => {
-    if (props.inEditMode) return 900;
-    if (props.isHovering) return 800;
+    if (props.annotationState === AnnotationState.EDITING) return 900;
+    if (props.annotationState === AnnotationState.OPEN) return 800;
     return 700
   }}
 `
