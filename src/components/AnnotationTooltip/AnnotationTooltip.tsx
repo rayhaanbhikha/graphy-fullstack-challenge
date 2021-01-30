@@ -9,45 +9,44 @@ import { Save } from '../Icons/Save';
 import { StyledTextArea } from './StyledTextArea';
 import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
 import { AnnotationStates } from '../Annotation/Annotation';
-import { AnnotationActions } from '../Annotation/annotationReducer';
 import { AnnotationWithStateType } from '../../types';
 
 interface IAnnotationTooltip {
   data: AnnotationWithStateType,
-  annotationState: AnnotationStates;
-  dispatchHandler: (action: AnnotationActions, annotation: AnnotationWithStateType) => void;
+  onSaveHandler: any;
+  onEditHandler: any;
+  onDeleteHandler: any;
 }
 
-export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, annotationState, dispatchHandler }) => {
+export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ data, onSaveHandler
+  , onEditHandler
+  , onDeleteHandler }) => {
+
   const textAreaRef = useRef<HTMLTextAreaElement>({} as HTMLTextAreaElement);
 
   const [annotatedText, setIsAnnotatedText] = useState(data.text);
 
   useEffect(() => {
-    if (annotationState === AnnotationStates.EDITING) {
+    if (data.state === AnnotationStates.EDITING) {
       textAreaRef?.current?.focus();
     }
-  }, [annotationState])
+  }, [data])
 
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
-  const onSaveHandler = () => dispatchHandler(AnnotationActions.SAVE, { ...data, text: annotatedText })
-  const onEditHandler = () => dispatchHandler(AnnotationActions.EDIT, data);
-  const onDeleteHandler = () => dispatchHandler(AnnotationActions.DELETE, data);
-
   return (
-    <PositionAnnotationTooltip annotationState={annotationState}>
-      <StyledAnnotationTooltip annotationState={annotationState}>
+    <PositionAnnotationTooltip annotationState={data.state}>
+      <StyledAnnotationTooltip annotationState={data.state}>
         <StyledTextArea
           ref={textAreaRef}
           value={annotatedText}
-          inEditMode={annotationState === AnnotationStates.EDITING}
+          inEditMode={data.state === AnnotationStates.EDITING}
           onChange={onChangeHandler}
         />
         <StyledBtnWrapper>
           {
-            annotationState === AnnotationStates.EDITING ?
-              <Save onClickHandler={onSaveHandler} /> : <Pencil onClickHandler={onEditHandler} />
+            data.state === AnnotationStates.EDITING ?
+              <Save onClickHandler={() => onSaveHandler({ ...data, text: annotatedText })} /> : <Pencil onClickHandler={onEditHandler} />
           }
           <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>

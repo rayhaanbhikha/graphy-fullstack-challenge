@@ -9,7 +9,7 @@ export class AnnotationService {
   constructor(private url: string) {}
 
   create(coord: Coord): AnnotationWithStateType {
-    const { x, y} = coord;
+    const { x, y } = coord;
     return {
       id: DEFAULT_ID,
       coord: {
