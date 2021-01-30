@@ -16,6 +16,20 @@ export enum ApplicationState {
   DEFAULT_MODE
 }
 
+export const computeNewCoords = (annotationCoord: Coord, oldMouseCoord: Coord, newMouseCoord: Coord) => {
+  const vector = {
+    x: annotationCoord.x - oldMouseCoord.x,
+    y: annotationCoord.y - oldMouseCoord.y
+  }
+
+  const newCoord = {
+    x: newMouseCoord.x + vector.x,
+    y: newMouseCoord.y + vector.y
+  }
+
+  return newCoord;
+}
+
 export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   const [applicationState, setapplicationState] = useState(ApplicationState.DEFAULT_MODE)
   const annotations = useAnnotations(annotationService, []);
@@ -33,23 +47,9 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
 
     const { annotationData, mouseCoord } = JSON.parse(e.dataTransfer.getData("annotation"));
 
-    const oldCoords = annotationData.coord as Coord;
-    const vector = {
-      x: oldCoords.x - mouseCoord.x,
-      y: oldCoords.y - mouseCoord.y
-    }
+    const { pageX: x, pageY: y } = e;
 
-    const newMouseCoord = {
-      x: e.pageX,
-      y: e.pageY
-    }
-
-    const newCoord = {
-      x: newMouseCoord.x + vector.x,
-      y: newMouseCoord.y + vector.y
-    }
-
-    annotationData.coord = newCoord;
+    annotationData.coord = computeNewCoords(annotationData.coord, mouseCoord, { x, y })
     annotationData.state = AnnotationStates.OPEN
     annotations.save(annotationData);
   }

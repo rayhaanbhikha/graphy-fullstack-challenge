@@ -47,7 +47,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
     dispatch(AnnotationActions.DRAG)
   }
 
-  const isDraggable = () => state !== AnnotationStates.EDITING && Boolean(data.text);
+  const isDraggable = () => state !== AnnotationStates.EDITING;
 
   const onDispatchHandler = (action: AnnotationActions, annotation: AnnotationWithStateType) => {
     dispatch(action);
