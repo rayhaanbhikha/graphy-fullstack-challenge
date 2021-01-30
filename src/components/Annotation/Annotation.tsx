@@ -32,27 +32,27 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data }) => {
     setisDragging(true);
   }
 
+  const isDraggable = () => !inEditMode && Boolean(data.text);
+
   return (
-    <>
-      <StyledMarker
-        coord={data.coord}
+    <StyledMarker
+      coord={data.coord}
+      inEditMode={inEditMode}
+      isHovering={isHovering}
+      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      draggable={isDraggable()}
+      onDragStart={onDragStartHandler}
+      onDragEnd={() => setisDragging(false)}
+    >
+      <AnnotationTooltip
+        data={data}
         inEditMode={inEditMode}
         isHovering={isHovering}
-        onClick={(e: React.MouseEvent) => e.stopPropagation()}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        draggable={Boolean(data.text)}
-        onDragStart={onDragStartHandler}
-        onDragEnd={() => setisDragging(false)}
-      >
-        <AnnotationTooltip
-          data={data}
-          inEditMode={inEditMode}
-          isHovering={isHovering}
-          isDragging={isDragging}
-          setinEditMode={setinEditMode}
-        />
-      </StyledMarker>
-    </>
+        isDragging={isDragging}
+        setinEditMode={setinEditMode}
+      />
+    </StyledMarker>
   )
 }
