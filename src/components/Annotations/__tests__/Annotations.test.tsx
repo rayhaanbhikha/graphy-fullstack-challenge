@@ -5,7 +5,7 @@ import 'jest-styled-components';
 import { AnnotationStates } from "../../../enums";
 import { AnnotationType } from '../../../types';
 
-describe('Annotation', () => {
+describe('Annotations', () => {
 
   const mockInitAnnotations = jest.fn();
   const mockCreateAnnotation = jest.fn();
