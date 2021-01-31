@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StyledMarker should have the default styles 1`] = `
+<DocumentFragment>
+  .c0 {
+  position: absolute;
+  top: 10px;
+  left: 5px;
+  background: rgb(216,216,216);
+  width: 19px;
+  height: 19px;
+  border-radius: 3px;
+  border: solid 1px rgb(173,173,173);
+  cursor: pointer;
+  z-index: 900;
+}
+
+<div
+    class="c0"
+  />
+</DocumentFragment>
+`;
