@@ -22,15 +22,15 @@ describe('Annotation', () => {
     state: AnnotationStates.CLOSED
   }
 
-  const renderComponent: ReturnType<typeof render> = (data: AnnotationType) => render(<Annotation
+  const renderComponent = (data: AnnotationType) => render(<Annotation
     data={data}
     save={onSaveHandler}
     remove={onRemoveHandler}
     setapplicationState={setapplicationStateHandler}
   />)
 
-  it('onmouseenter should open tooltip', async () => {
-    const { getByTestId } = await renderComponent(data);
+  it('onmouseenter should open tooltip', () => {
+    const { getByTestId } = renderComponent(data);
     const tooltip = getByTestId('annotation-tooltip')
     expect(tooltip).toHaveStyleRule('visibility', 'hidden');
     expect(tooltip).toHaveStyleRule('opacity', '0');
@@ -41,8 +41,8 @@ describe('Annotation', () => {
     expect(tooltip).toHaveStyleRule('opacity', '100');
   })
 
-  it('onmouseleave should close tooltip', async () => {
-    const { getByTestId } = await renderComponent({ ...data, state: AnnotationStates.OPEN });
+  it('onmouseleave should close tooltip', () => {
+    const { getByTestId } = renderComponent({ ...data, state: AnnotationStates.OPEN });
     const tooltip = getByTestId('annotation-tooltip')
 
     expect(tooltip).toHaveStyleRule('visibility', 'initial');
@@ -55,8 +55,8 @@ describe('Annotation', () => {
   })
 
 
-  it('onmouseleave should not close tooltip in editing state', async () => {
-    const { getByTestId } = await renderComponent({ ...data, state: AnnotationStates.EDITING });
+  it('onmouseleave should not close tooltip in editing state', () => {
+    const { getByTestId } = renderComponent({ ...data, state: AnnotationStates.EDITING });
     const tooltip = getByTestId('annotation-tooltip')
 
     expect(tooltip).toHaveStyleRule('visibility', 'initial');
@@ -69,25 +69,25 @@ describe('Annotation', () => {
   })
 
   // TODO: dragging.
-  it('should not have draggable attribute when in edit mode', async () => {
-    const { getByTestId } = await renderComponent({ ...data, state: AnnotationStates.EDITING });
+  it('should not have draggable attribute when in edit mode', () => {
+    const { getByTestId } = renderComponent({ ...data, state: AnnotationStates.EDITING });
     expect(getByTestId('marker')).toHaveAttribute('draggable', 'false');
   })
 
-  it('should have draggable attribute when not in edit mode', async () => {
-    const { getByTestId } = await renderComponent(data);
+  it('should have draggable attribute when not in edit mode', () => {
+    const { getByTestId } = renderComponent(data);
     expect(getByTestId('marker')).toHaveAttribute('draggable', 'true');
   })
 
-  it('should set application state to edit mode when annotation state changes to editing', async () => {
-    const { getByText } = await renderComponent(data);
+  it('should set application state to edit mode when annotation state changes to editing', () => {
+    const { getByText } = renderComponent(data);
     const editBtn = getByText('pencil.svg');
     fireEvent.click(editBtn)
     expect(setapplicationStateHandler).toHaveBeenCalledWith(ApplicationState.EDIT_MODE);
   })
 
-  it('should focus on text area when annotation state changes to editing', async () => {
-    const { getByText, container } = await renderComponent(data);
+  it('should focus on text area when annotation state changes to editing', () => {
+    const { getByText, container } = renderComponent(data);
     const editBtn = getByText('pencil.svg');
     const textArea = container.querySelector('textarea');
     expect(textArea).not.toHaveFocus();
@@ -95,11 +95,11 @@ describe('Annotation', () => {
     expect(textArea).toHaveFocus();
   })
 
-  it('should invoke applicationState and onSave handlers with correct values when saving', async () => {
+  it('should invoke applicationState and onSave handlers with correct values when saving', () => {
     const annotationData = { ...data, state: AnnotationStates.EDITING }
-    const { getByText, container } = await renderComponent(annotationData);
+    const { getByText, container } = renderComponent(annotationData);
     const saveBtn = getByText('save.svg');
-    const textArea = container.querySelector('textarea');
+    const textArea = container.querySelector('textarea') as HTMLTextAreaElement;
     const typedString = " hello world"
     fireEvent.type(textArea, typedString)
     fireEvent.click(saveBtn)
@@ -110,9 +110,9 @@ describe('Annotation', () => {
   })
 
 
-  it('should invoke correct handlers when deleting', async () => {
+  it('should invoke correct handlers when deleting', () => {
     const annotationData = { ...data, state: AnnotationStates.EDITING }
-    const { getByText } = await renderComponent(annotationData);
+    const { getByText } = renderComponent(annotationData);
     const deleteBtn = getByText('bin.svg');
 
     fireEvent.click(deleteBtn)
