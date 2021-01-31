@@ -3,6 +3,8 @@ import { AnnotationStates } from '../../../enums';
 import { useAnnotations } from '../useAnnotations';
 import { renderHook, act } from '@testing-library/react-hooks'
 
+jest.spyOn(console, 'error').mockImplementation();
+
 describe('UseAnnotations hook', () => {
   const annotationService = ({
     getAll: jest.fn().mockResolvedValue([

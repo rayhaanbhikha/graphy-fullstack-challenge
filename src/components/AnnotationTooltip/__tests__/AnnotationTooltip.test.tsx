@@ -1,8 +1,9 @@
 import React from 'react';
 import { render } from '@testing-library/react'
 import fireEvent from '@testing-library/user-event'
-import { AnnotationStates } from '../../Annotation/Annotation';
+
 import { AnnotationTooltip } from '../AnnotationTooltip';
+import { AnnotationStates } from '../../../enums';
 
 describe('AnnotationTooltip', () => {
 

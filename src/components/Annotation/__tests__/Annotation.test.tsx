@@ -1,10 +1,12 @@
 import React from 'react';
 import { render } from '@testing-library/react'
 import fireEvent from '@testing-library/user-event'
-import { Annotation, AnnotationStates } from '../Annotation';
-import { AnnotationType } from '../../../types';
 import 'jest-styled-components';
-import { ApplicationState } from '../../Annotations/Annotations';
+
+import { Annotation } from '../Annotation';
+import { AnnotationType } from '../../../types';
+import { AnnotationStates, ApplicationState } from '../../../enums';
+
 
 describe('Annotation', () => {
   jest.useFakeTimers();
@@ -35,7 +37,7 @@ describe('Annotation', () => {
     expect(tooltip).toHaveStyleRule('visibility', 'hidden');
     expect(tooltip).toHaveStyleRule('opacity', '0');
 
-    fireEvent.hover(getByTestId('marker'));
+    fireEvent.hover(getByTestId(`marker-${data._id}`));
 
     expect(tooltip).toHaveStyleRule('visibility', 'initial');
     expect(tooltip).toHaveStyleRule('opacity', '100');
@@ -48,7 +50,7 @@ describe('Annotation', () => {
     expect(tooltip).toHaveStyleRule('visibility', 'initial');
     expect(tooltip).toHaveStyleRule('opacity', '100');
 
-    fireEvent.unhover(getByTestId('marker'));
+    fireEvent.unhover(getByTestId(`marker-${data._id}`));
 
     expect(tooltip).toHaveStyleRule('visibility', 'hidden');
     expect(tooltip).toHaveStyleRule('opacity', '0');
@@ -62,7 +64,7 @@ describe('Annotation', () => {
     expect(tooltip).toHaveStyleRule('visibility', 'initial');
     expect(tooltip).toHaveStyleRule('opacity', '100');
 
-    fireEvent.unhover(getByTestId('marker'));
+    fireEvent.unhover(getByTestId(`marker-${data._id}`));
 
     expect(tooltip).toHaveStyleRule('visibility', 'initial');
     expect(tooltip).toHaveStyleRule('opacity', '100');
@@ -71,12 +73,12 @@ describe('Annotation', () => {
   // TODO: dragging.
   it('should not have draggable attribute when in edit mode', () => {
     const { getByTestId } = renderComponent({ ...data, state: AnnotationStates.EDITING });
-    expect(getByTestId('marker')).toHaveAttribute('draggable', 'false');
+    expect(getByTestId(`marker-${data._id}`)).toHaveAttribute('draggable', 'false');
   })
 
   it('should have draggable attribute when not in edit mode', () => {
     const { getByTestId } = renderComponent(data);
-    expect(getByTestId('marker')).toHaveAttribute('draggable', 'true');
+    expect(getByTestId(`marker-${data._id}`)).toHaveAttribute('draggable', 'true');
   })
 
   it('should set application state to edit mode when annotation state changes to editing', () => {

@@ -1,9 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react'
-import { AnnotationStates } from '../../Annotation/Annotation';
+import 'jest-styled-components';
+
 import { StyledMarker } from '../StyledMarker';
 import { Coord } from '../../../types';
-import 'jest-styled-components';
+import { AnnotationStates } from '../../../enums';
 
 describe('StyledMarker', () => {
 
