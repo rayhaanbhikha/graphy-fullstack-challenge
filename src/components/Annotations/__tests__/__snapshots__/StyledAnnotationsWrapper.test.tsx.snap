@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StyledAnnotationsWrapper should have the default styles 1`] = `
+<DocumentFragment>
+  .c0 {
+  position: inherit;
+  height: inherit;
+  width: inherit;
+}
+
+<div
+    class="c0"
+  />
+</DocumentFragment>
+`;
