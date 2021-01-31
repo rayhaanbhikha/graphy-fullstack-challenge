@@ -1,10 +1,10 @@
 import React from 'react';
 import { render } from '@testing-library/react'
 import fireEvent from '@testing-library/user-event'
-import { Annotation, AnnotationStates } from './Annotation';
-import { AnnotationType } from '../../types';
+import { Annotation, AnnotationStates } from '../Annotation';
+import { AnnotationType } from '../../../types';
 import 'jest-styled-components';
-import { ApplicationState } from '../Annotations/Annotations';
+import { ApplicationState } from '../../Annotations/Annotations';
 
 describe('Annotation', () => {
   jest.useFakeTimers();
