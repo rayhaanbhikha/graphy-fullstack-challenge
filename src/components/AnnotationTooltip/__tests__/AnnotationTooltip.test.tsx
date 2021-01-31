@@ -51,7 +51,7 @@ describe('AnnotationTooltip', () => {
       const textArea = container.querySelector('textarea') as HTMLTextAreaElement;
       const typedText = "hello world"
       fireEvent.type(textArea, typedText);
-      expect(textArea.textContent).toBe(`${defaultText}${typedText}q`)
+      expect(textArea.textContent).toBe(`${defaultText}${typedText}`)
     })
 
     it("should invoke onDeleteHandler when clicked", () => {
