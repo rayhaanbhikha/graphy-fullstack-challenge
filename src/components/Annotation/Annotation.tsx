@@ -44,8 +44,8 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
     setAnnnotationState(AnnotationStates.DRAGGING);
   }
 
-  const onSaveHandler = async (annotation: AnnotationType) => {
-    save(annotation);
+  const onSaveHandler = async (annotatedText: string) => {
+    save({ ...data, text: annotatedText });
     setAnnnotationState(AnnotationStates.OPEN);
     setapplicationState(ApplicationState.DEFAULT_MODE);
   }
@@ -71,7 +71,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
       onDragStart={onDragStartHandler}
     >
       <AnnotationTooltip
-        data={data}
+        text={data.text}
         annotationstate={annotationState}
         onSaveHandler={onSaveHandler}
         onEditHandler={onEditHandler}
