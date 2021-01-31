@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { AnnotationStates } from "../Annotation/Annotation";
+
+import { AnnotationStates } from "../../enums";
 import { markerDimensions } from "../Marker/StyledMarker";
 
 export const PositionAnnotationTooltip = styled.div<{ annotationState: AnnotationStates; }>`

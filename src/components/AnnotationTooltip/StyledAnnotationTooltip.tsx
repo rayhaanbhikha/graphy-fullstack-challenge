@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { AnnotationStates } from "../Annotation/Annotation";
 
+import { AnnotationStates } from "../../enums";
 export interface IStyledAnnotationTooltip {
   annotationState: AnnotationStates;
 }

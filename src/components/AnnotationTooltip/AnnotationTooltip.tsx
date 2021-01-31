@@ -8,7 +8,8 @@ import { Save } from '../Icons/Save';
 
 import { StyledTextArea } from './StyledTextArea';
 import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
-import { AnnotationStates } from '../Annotation/Annotation';
+import { AnnotationStates } from '../../enums';
+
 
 interface IAnnotationTooltip {
   text: string,

@@ -3,21 +3,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { StyledMarker } from '../Marker/StyledMarker';
 import { AnnotationType } from '../../types';
 import { AnnotationTooltip } from '../AnnotationTooltip/AnnotationTooltip';
-import { ApplicationState } from '../Annotations/Annotations';
+import { AnnotationStates, ApplicationState } from '../../enums';
 
 export interface IAnnotation {
   data: AnnotationType;
   setapplicationState: (state: ApplicationState) => void;
   save: (annotation: AnnotationType) => Promise<void>;
   remove: (annotation: AnnotationType) => Promise<void>;
-}
-
-export enum AnnotationStates {
-  OPEN,
-  CLOSED,
-  EDITING,
-  DELETING,
-  DRAGGING
 }
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicationState, save, remove }) => {
@@ -35,6 +27,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
 
   const onDragStartHandler = (e: React.DragEvent<HTMLDivElement>) => {
     e.persist();
+    console.log("dragging", e);
     const { pageX: x, pageY: y } = e;
     const payload = {
       annotationData: data,
@@ -62,7 +55,7 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
 
   return (
     <StyledMarker
-      data-testid="marker"
+      data-testid={`marker-${data._id}`}
       coord={data.coord}
       annotationState={annotationState}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}

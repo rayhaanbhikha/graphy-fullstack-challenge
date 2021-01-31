@@ -1,5 +1,4 @@
-import { AnnotationStates } from "./components/Annotation/Annotation";
-
+import { AnnotationStates } from './enums';
 export interface Coord {
   x: number;
   y: number;

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { Coord } from '../../types';
-import { AnnotationStates } from '../Annotation/Annotation';
+
+import { AnnotationStates } from "../../enums";
 
 export const markerDimensions = {
   width: 19,

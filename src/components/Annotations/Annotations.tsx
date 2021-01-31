@@ -1,19 +1,15 @@
 import React, { useEffect, FunctionComponent, useState } from 'react'
 
 import { Coord } from '../../types';
-import { Annotation, AnnotationStates } from '../Annotation/Annotation';
+import { Annotation } from '../Annotation/Annotation';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from '../hooks/useAnnotations';
 import { annotationService } from '../../Annotations.service';
 import { StyledErrorBar } from './StyledErrorBar';
+import { AnnotationStates, ApplicationState } from '../../enums';
 
 interface IAnnotations {
   coord: Coord;
-}
-
-export enum ApplicationState {
-  EDIT_MODE,
-  DEFAULT_MODE
 }
 
 export const computeNewCoords = (annotationCoord: Coord, oldMouseCoord: Coord, newMouseCoord: Coord) => {
@@ -44,7 +40,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   const onDropHandler = (e: React.DragEvent) => {
     e.preventDefault();
     e.persist();
-
+    console.log("dropping");
     const { annotationData, mouseCoord } = JSON.parse(e.dataTransfer.getData("annotation"));
 
     const { pageX: x, pageY: y } = e;
@@ -57,7 +53,7 @@ export const Annotations: FunctionComponent<IAnnotations> = ({ coord }) => {
   return (
     <>
       { annotations.errorMessage && <StyledErrorBar>{annotations.errorMessage}</StyledErrorBar>}
-      <StyledAnnotationsWrapper onClick={onClick} onDrop={onDropHandler} onDragOver={(e) => e.preventDefault()}>
+      <StyledAnnotationsWrapper onClick={onClick} onDrop={onDropHandler} onDragOver={(e) => e.preventDefault()} data-testid='annotations-wrapper'>
         {
           annotations.value.map((annotationData, index) => {
             const { x, y } = annotationData.coord;
