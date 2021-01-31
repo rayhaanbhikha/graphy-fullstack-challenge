@@ -33,7 +33,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
   return (
-    <PositionAnnotationTooltip annotationState={annotationstate}>
+    <PositionAnnotationTooltip annotationState={annotationstate} data-testid="annotation-tooltip">
       <StyledAnnotationTooltip annotationState={annotationstate}>
         <StyledTextArea
           ref={textAreaRef}

@@ -8,16 +8,16 @@ import { ApplicationState } from '../Annotations/Annotations';
 export interface IAnnotation {
   data: AnnotationType;
   setapplicationState: (state: ApplicationState) => void;
-  save: (annotation: AnnotationType) => void;
-  remove: (annotation: AnnotationType) => void;
+  save: (annotation: AnnotationType) => Promise<void>;
+  remove: (annotation: AnnotationType) => Promise<void>;
 }
 
 export enum AnnotationStates {
-  OPEN = "OPEN",
-  CLOSED = "CLOSED",
-  EDITING = "EDITING",
-  DELETING = "DELETING",
-  DRAGGING = "DRAGGING"
+  OPEN,
+  CLOSED,
+  EDITING,
+  DELETING,
+  DRAGGING
 }
 
 export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicationState, save, remove }) => {
@@ -45,23 +45,24 @@ export const Annotation: FunctionComponent<IAnnotation> = ({ data, setapplicatio
   }
 
   const onSaveHandler = async (annotatedText: string) => {
-    save({ ...data, text: annotatedText });
     setAnnnotationState(AnnotationStates.OPEN);
     setapplicationState(ApplicationState.DEFAULT_MODE);
+    await save({ ...data, text: annotatedText });
   }
 
   const onEditHandler = () => {
     setAnnnotationState(AnnotationStates.EDITING);
-    setapplicationState(ApplicationState.EDIT_MODE);
   }
-  const onDeleteHandler = () => {
-    remove(data);
+
+  const onDeleteHandler = async () => {
     setAnnnotationState(AnnotationStates.DELETING);
     setapplicationState(ApplicationState.DEFAULT_MODE);
+    await remove(data);
   }
 
   return (
     <StyledMarker
+      data-testid="marker"
       coord={data.coord}
       annotationState={annotationState}
       onClick={(e: React.MouseEvent) => e.stopPropagation()}
