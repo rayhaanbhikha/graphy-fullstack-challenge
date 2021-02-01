@@ -13,7 +13,7 @@ describe('Annotations', () => {
     { _id: 'some-id-2', text: 'hello world 2', coord: { x: 2, y: 5 }, state: AnnotationStates.OPEN }
   ]
 
-  jest.mock('../../hooks/useAnnotations', () => ({
+  jest.mock('../../../hooks/useAnnotations', () => ({
     useAnnotations: jest.fn().mockReturnValue({
       value: mockAnnotations,
       init: mockInitAnnotations,

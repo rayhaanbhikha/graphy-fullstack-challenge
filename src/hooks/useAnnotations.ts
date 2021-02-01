@@ -16,21 +16,21 @@ export const useAnnotations = (annotationService: AnnotationService, initialStat
       setDefaultErrorMessage();
     } catch (error) {
       console.error(error);
+      setAnnotations([]);
       setErrorMessage("Error retrieving annotations")
     }
   }
 
   const save = async (annotation: AnnotationType) => {
     try {
-      let updatedAnnotations: AnnotationType[] = [];
-
+      let updatedAnnotation: AnnotationType;
       if (annotation._id === DEFAULT_ID) {
-        const savedAnnotation = await annotationService.save(annotation)
-        updatedAnnotations = annotations.map(annotation => annotation._id === DEFAULT_ID ? savedAnnotation : annotation);
+        updatedAnnotation = await annotationService.save(annotation)
       } else {
-        const updatedAnnotation = await annotationService.update(annotation);
-        updatedAnnotations = annotations.map(annotation => annotation._id === updatedAnnotation._id ? updatedAnnotation : annotation);
+        updatedAnnotation = await annotationService.update(annotation);
       }
+
+      const updatedAnnotations = annotations.map(annotation => (annotation._id === updatedAnnotation._id) || (annotation._id === DEFAULT_ID) ? updatedAnnotation : annotation);
 
       setAnnotations(updatedAnnotations);
       setDefaultErrorMessage();
