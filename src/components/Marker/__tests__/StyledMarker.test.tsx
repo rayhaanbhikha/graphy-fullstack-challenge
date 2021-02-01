@@ -10,28 +10,18 @@ describe('StyledMarker', () => {
 
   const coord: Coord = { x: 5, y: 10 }
 
-  const renderComponent = (state: AnnotationStates) => render(<StyledMarker coord={coord} annotationState={state} />)
-
-  it('should have the default styles', () => {
-    const { asFragment } = renderComponent(AnnotationStates.EDITING);
+  it('should have correct default styles', () => {
+    const { asFragment } = render(<StyledMarker annotationState={AnnotationStates.CLOSED} coord={coord} />);
     expect(asFragment()).toMatchSnapshot();
   })
 
-  it('should render with correct z-index in edit mode', () => {
-    const { container } = renderComponent(AnnotationStates.EDITING);
-    const element = container.querySelector('div')
-    expect(element).toHaveStyleRule('z-index', '900');
+  it('should have correct styles when in edit state', () => {
+    const { asFragment } = render(<StyledMarker annotationState={AnnotationStates.EDITING} coord={coord} />);
+    expect(asFragment()).toMatchSnapshot();
   })
 
-  it('should render with correct z-index in open mode', () => {
-    const { container } = renderComponent(AnnotationStates.OPEN);
-    const element = container.querySelector('div')
-    expect(element).toHaveStyleRule('z-index', '800');
-  })
-
-  it('should render with correct z-index in other mode', () => {
-    const { container } = renderComponent(AnnotationStates.CLOSED);
-    const element = container.querySelector('div')
-    expect(element).toHaveStyleRule('z-index', '700');
+  it('should have correct styles when in open state', () => {
+    const { asFragment } = render(<StyledMarker annotationState={AnnotationStates.OPEN} coord={coord} />);
+    expect(asFragment()).toMatchSnapshot();
   })
 })
