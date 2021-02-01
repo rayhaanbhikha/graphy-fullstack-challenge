@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { AnnotationStates } from "../../enums";
 import { markerDimensions } from "../Marker/StyledMarker";
 
-export const PositionAnnotationTooltip = styled.div<{ annotationState: AnnotationStates; }>`
+export const PositionedAnnotationTooltip = styled.div<{ annotationState: AnnotationStates; }>`
   position: absolute;
   left: ${markerDimensions.width}px;
   top: 0;

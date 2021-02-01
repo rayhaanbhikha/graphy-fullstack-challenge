@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PositionedAnnotationTooltip should have correct default styles 1`] = `
+<DocumentFragment>
+  .c0 {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  padding-left: 5px;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: visibility 0.5s,opacity 0.5s ease;
+  transition: visibility 0.5s,opacity 0.5s ease;
+}
+
+<div
+    class="c0"
+  />
+</DocumentFragment>
+`;
+
+exports[`PositionedAnnotationTooltip should have correct styles when in edit state 1`] = `
+<DocumentFragment>
+  .c0 {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  padding-left: 5px;
+  visibility: initial;
+  opacity: 100;
+  -webkit-transition: visibility 0.5s,opacity 0.5s ease;
+  transition: visibility 0.5s,opacity 0.5s ease;
+}
+
+<div
+    class="c0"
+  />
+</DocumentFragment>
+`;
+
+exports[`PositionedAnnotationTooltip should have correct styles when in open state 1`] = `
+<DocumentFragment>
+  .c0 {
+  position: absolute;
+  left: 19px;
+  top: 0;
+  padding-left: 5px;
+  visibility: initial;
+  opacity: 100;
+  -webkit-transition: visibility 0.5s,opacity 0.5s ease;
+  transition: visibility 0.5s,opacity 0.5s ease;
+}
+
+<div
+    class="c0"
+  />
+</DocumentFragment>
+`;

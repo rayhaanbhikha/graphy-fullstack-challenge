@@ -7,7 +7,7 @@ import { Bin } from '../Icons/Bin';
 import { Save } from '../Icons/Save';
 
 import { StyledTextArea } from './StyledTextArea';
-import { PositionAnnotationTooltip } from './PositionAnnotationTooltip';
+import { PositionedAnnotationTooltip } from './PositionedAnnotationTooltip';
 import { AnnotationStates } from '../../enums';
 
 
@@ -34,7 +34,7 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
   const onChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => setIsAnnotatedText(e.target.value);
 
   return (
-    <PositionAnnotationTooltip annotationState={annotationstate} data-testid="annotation-tooltip">
+    <PositionedAnnotationTooltip annotationState={annotationstate} data-testid="annotation-tooltip">
       <StyledAnnotationTooltip annotationState={annotationstate}>
         <StyledTextArea
           ref={textAreaRef}
@@ -50,6 +50,6 @@ export const AnnotationTooltip: FunctionComponent<IAnnotationTooltip> = ({ text,
           <Bin onClickHandler={onDeleteHandler} />
         </StyledBtnWrapper>
       </StyledAnnotationTooltip>
-    </PositionAnnotationTooltip>
+    </PositionedAnnotationTooltip>
   )
 }
