@@ -1,24 +1,17 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render } from '@testing-library/react'
 import { StyledTextArea } from '../StyledTextArea';
 import 'jest-styled-components';
 
 describe('StyledTextArea', () => {
-  test('Correct styles and attributes are added in edit mode', () => {
-    const { container } = render(<StyledTextArea inEditMode={true} />)
-    const textArea = container.querySelector('textarea')
-    expect(textArea).toHaveStyleRule('background', 'white');
-    expect(textArea).toHaveStyleRule('cursor', 'text');
-    expect(textArea).not.toHaveAttribute('readonly');
-    expect(textArea).not.toHaveAttribute('disabled');
+
+  it('should have correct default styles', () => {
+    const { asFragment } = render(<StyledTextArea inEditMode={false} />);
+    expect(asFragment()).toMatchSnapshot();
   })
 
-  test('Correct styles and attributes are added in default mode', () => {
-    const { container } = render(<StyledTextArea inEditMode={false} />)
-    const textArea = container.querySelector('textarea')
-    expect(textArea).toHaveStyleRule('background', 'inherit');
-    expect(textArea).toHaveStyleRule('cursor', 'inherit');
-    expect(textArea).not.toHaveAttribute('readonly', 'true');
-    expect(textArea).toHaveAttribute('disabled');
+  it('should have correct styles when in edit state', () => {
+    const { asFragment } = render(<StyledTextArea inEditMode={true} />);
+    expect(asFragment()).toMatchSnapshot();
   })
-})
+});

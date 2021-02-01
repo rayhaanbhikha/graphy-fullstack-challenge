@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StyledTextArea should have correct default styles 1`] = `
+<DocumentFragment>
+  .c0 {
+  -webkit-box-flex: 3;
+  -webkit-flex-grow: 3;
+  -ms-flex-positive: 3;
+  flex-grow: 3;
+  min-width: inherit;
+  border: none;
+  background: inherit;
+  margin: 2px;
+  color: black;
+  cursor: inherit;
+}
+
+<textarea
+    class="c0"
+    disabled=""
+  />
+</DocumentFragment>
+`;
+
+exports[`StyledTextArea should have correct styles when in edit state 1`] = `
+<DocumentFragment>
+  .c0 {
+  -webkit-box-flex: 3;
+  -webkit-flex-grow: 3;
+  -ms-flex-positive: 3;
+  flex-grow: 3;
+  min-width: inherit;
+  border: none;
+  background: white;
+  margin: 2px;
+  color: black;
+  cursor: text;
+}
+
+<textarea
+    class="c0"
+  />
+</DocumentFragment>
+`;
