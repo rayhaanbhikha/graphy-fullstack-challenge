@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
-import { Annotations } from './components/Annotations/Annotations'
-import { Coord } from './types';
+import { Annotations } from '../Annotations/Annotations'
+import { Coord } from '../../types';
 
 const Container = styled.div`
   width: 100vw;
@@ -14,6 +14,7 @@ const App = () => {
 
   const handleMouseMove = (ev: React.MouseEvent) => {
     const { pageX: x, pageY: y } = ev;
+    console.log("moving: ", { x, y });
     setCoords({ x, y });
   };
 
