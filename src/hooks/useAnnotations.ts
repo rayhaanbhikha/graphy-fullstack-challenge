@@ -3,6 +3,7 @@ import { AnnotationService, DEFAULT_ID } from '../Annotations.service';
 
 import { AnnotationType, Coord } from '../types';
 
+// TODO: all method in hook should work locally without API. Using local storage as a write through cache.
 export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [annotations, setAnnotations] = useState<AnnotationType[]>(initialState)
