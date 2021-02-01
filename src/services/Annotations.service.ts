@@ -1,7 +1,7 @@
-import { markerDimensions } from "./components/Marker/StyledMarker";
-import { apiBaseURL } from "./config";
-import { AnnotationStates } from "./enums";
-import { AnnotationType, Coord } from "./types";
+import { markerDimensions } from "../components/Marker/StyledMarker";
+import { apiBaseURL } from "../config";
+import { AnnotationStates } from "../enums";
+import { AnnotationType, Coord } from "../types";
 
 export const DEFAULT_ID = '';
 export class AnnotationService {

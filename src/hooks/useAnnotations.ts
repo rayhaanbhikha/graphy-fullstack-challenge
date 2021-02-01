@@ -1,5 +1,5 @@
 import { useState } from 'react'; 
-import { AnnotationService, DEFAULT_ID } from '../Annotations.service';
+import { AnnotationService, DEFAULT_ID } from '../services/Annotations.service';
 
 import { AnnotationType, Coord } from '../types';
 

@@ -4,7 +4,7 @@ import { Coord } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
 import { useAnnotations } from '../../hooks/useAnnotations';
-import { annotationService } from '../../Annotations.service';
+import { annotationService } from '../../services/Annotations.service';
 import { StyledErrorBar } from './StyledErrorBar';
 import { AnnotationStates, ApplicationState } from '../../enums';
 

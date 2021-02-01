@@ -1,4 +1,4 @@
-import { AnnotationService, DEFAULT_ID } from '../../Annotations.service';
+import { AnnotationService, DEFAULT_ID } from '../../services/Annotations.service';
 import { AnnotationStates } from '../../enums';
 import { useAnnotations } from '../useAnnotations';
 import { renderHook, act } from '@testing-library/react-hooks'
