@@ -3,7 +3,7 @@ import React, { useEffect, FunctionComponent, useState } from 'react'
 import { Coord } from '../../types';
 import { Annotation } from '../Annotation/Annotation';
 import { StyledAnnotationsWrapper } from './StyledAnnotationsWrapper';
-import { useAnnotations } from '../hooks/useAnnotations';
+import { useAnnotations } from '../../hooks/useAnnotations';
 import { annotationService } from '../../Annotations.service';
 import { StyledErrorBar } from './StyledErrorBar';
 import { AnnotationStates, ApplicationState } from '../../enums';

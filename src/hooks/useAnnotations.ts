@@ -1,7 +1,7 @@
 import { useState } from 'react'; 
-import { AnnotationService, DEFAULT_ID } from '../../Annotations.service';
+import { AnnotationService, DEFAULT_ID } from '../Annotations.service';
 
-import { AnnotationType, Coord } from '../../types';
+import { AnnotationType, Coord } from '../types';
 
 export const useAnnotations = (annotationService: AnnotationService, initialState: AnnotationType[]) => {
   const [errorMessage, setErrorMessage] = useState("");
